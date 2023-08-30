@@ -17,13 +17,11 @@ const Page = async ({ searchParams }: Props) => {
   return (
     <main>
       <div className={cn("flex flex-row gap-4")}>
-        <aside>
+        <aside className="w-1/6">
+          <h2 className={cn("font-semibold")}>Categories</h2>
+          <FilterList list={categories} parameter="category" />
           <section>
-            <h2 className={cn("font-semibold text-lg")}>Categories</h2>
-            <FilterList list={categories} parameter="category" />
-          </section>
-          <section>
-            <h2 className={cn("font-semibold text-lg")}>Brands</h2>
+            <h2 className={cn("font-semibold")}>Brands</h2>
             <FilterList list={brands} parameter="brand" />
           </section>
         </aside>

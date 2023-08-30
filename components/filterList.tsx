@@ -1,9 +1,17 @@
 "use client";
 
 import { Brand, Category } from "@/@types";
-import { Checkbox } from "@/components/ui/checkbox";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useCallback } from "react";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import Link from "next/link";
 
 interface Props {
   parameter: "category" | "brand";
@@ -23,30 +31,44 @@ const FilterList = ({ parameter, list }: Props) => {
     },
     [searchParams],
   );
+  console.log({ pathname });
+
+  const value = searchParams.get(parameter);
+  const current = list?.find((item) => item.slug.current === value);
 
   return (
     <div className="p-2">
-      {list?.map((item) => (
-        <div key={item.slug.current}>
-          <Checkbox
-            id={item.slug.current}
-            onCheckedChange={() => {
-              router.push(
-                pathname +
-                  "?" +
-                  createQueryString(parameter, item.slug.current),
-              );
-            }}
-            checked={item.slug.current === searchParams.get(parameter)}
-          />
-          <label
-            htmlFor="terms"
-            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+      <Select
+        value={value || "all"}
+        onValueChange={(value) => {
+          if (value === "all") {
+            router.push("/store/products");
+          }
+          router.push(pathname + "?" + createQueryString(parameter, value));
+        }}
+      >
+        <SelectTrigger className="capitalize">
+          <SelectValue
+            className="capitalize"
+            placeholder={parameter}
+            aria-label={current?.title}
           >
-            {item.title}
-          </label>
-        </div>
-      ))}
+            {current?.title || "All"}
+          </SelectValue>
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem value="all">All</SelectItem>
+          {list?.map((item) => (
+            <SelectItem
+              key={item.slug.current}
+              value={item.slug.current}
+              className="flex"
+            >
+              {item.title}
+            </SelectItem>
+          ))}
+        </SelectContent>
+      </Select>
     </div>
   );
 };
