@@ -6,12 +6,10 @@ import { useCallback } from "react";
 import {
   Select,
   SelectContent,
-  SelectGroup,
   SelectItem,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import Link from "next/link";
 
 interface Props {
   parameter: "category" | "brand";
@@ -25,26 +23,41 @@ const FilterList = ({ parameter, list }: Props) => {
   const createQueryString = useCallback(
     (name: string, value: string) => {
       const params = new URLSearchParams(searchParams);
-      params.set(name, value);
+      if (value === "all") {
+        params.delete(name);
+      } else {
+        params.set(name, value);
+      }
 
       return params.toString();
     },
     [searchParams],
   );
-  console.log({ pathname });
+  console.log({ pathname, searchParams });
 
-  const value = searchParams.get(parameter);
+  const value = searchParams.get(parameter) || "all";
   const current = list?.find((item) => item.slug.current === value);
+
+  const options = list
+    ? [
+        {
+          title: "All",
+          slug: {
+            current: "all",
+          },
+        },
+        ...list,
+      ]
+    : [];
 
   return (
     <div className="p-2">
       <Select
-        value={value || "all"}
+        value={value}
         onValueChange={(value) => {
-          if (value === "all") {
-            router.push("/store/products");
-          }
-          router.push(pathname + "?" + createQueryString(parameter, value));
+          return router.push(
+            pathname + "?" + createQueryString(parameter, value),
+          );
         }}
       >
         <SelectTrigger className="capitalize">
@@ -57,8 +70,7 @@ const FilterList = ({ parameter, list }: Props) => {
           </SelectValue>
         </SelectTrigger>
         <SelectContent>
-          <SelectItem value="all">All</SelectItem>
-          {list?.map((item) => (
+          {options?.map((item) => (
             <SelectItem
               key={item.slug.current}
               value={item.slug.current}
