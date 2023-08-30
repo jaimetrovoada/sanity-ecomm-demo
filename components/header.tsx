@@ -30,7 +30,9 @@ const Header = ({ categories, brands }: Props) => {
         "relative border-b border-b-gray-200 p-2 flex flex-row justify-between",
       )}
     >
-      <h1 className={cn("text-3xl", phatt.className)}>OS</h1>
+      <h1 className={cn("text-3xl", phatt.className)}>
+        <Link href="/">OS</Link>
+      </h1>
       <NavigationMenu>
         <NavigationMenuList>
           <NavigationMenuItem>
@@ -48,14 +50,9 @@ const Header = ({ categories, brands }: Props) => {
                   </NavigationMenuLink>
                 </li>
                 <li>
-                  <NavigationMenuLink asChild>
-                    <Link
-                      href="/store/categories"
-                      className="text-lg font-semibold underline"
-                    >
-                      Categories
-                    </Link>
-                  </NavigationMenuLink>
+                  <NavigationMenuItem className="font-semibold">
+                    Categories
+                  </NavigationMenuItem>
                   <ul className="flex flex-row flex-wrap gap-4 p-2">
                     {categories?.map((category) => (
                       <li
@@ -64,7 +61,7 @@ const Header = ({ categories, brands }: Props) => {
                       >
                         <NavigationMenuLink asChild>
                           <Link
-                            href={`/store/categories/${category.slug.current}`}
+                            href={`/store/products?category=${category.slug.current}`}
                           >
                             {category.title}
                           </Link>
@@ -74,14 +71,9 @@ const Header = ({ categories, brands }: Props) => {
                   </ul>
                 </li>
                 <li>
-                  <NavigationMenuLink asChild>
-                    <Link
-                      href="/store/brands"
-                      className="text-lg font-semibold underline"
-                    >
-                      Brands
-                    </Link>
-                  </NavigationMenuLink>
+                  <NavigationMenuItem className="font-semibold">
+                    Brands
+                  </NavigationMenuItem>
                   <ul className="flex flex-row flex-wrap gap-4 p-2">
                     {brands?.map((brand) => (
                       <li
@@ -89,7 +81,9 @@ const Header = ({ categories, brands }: Props) => {
                         className="underline text-gray-700"
                       >
                         <NavigationMenuLink asChild>
-                          <Link href={`/store/brands/${brand.slug.current}`}>
+                          <Link
+                            href={`/store/products?brand=${brand.slug.current}`}
+                          >
                             {brand.title}
                           </Link>
                         </NavigationMenuLink>
