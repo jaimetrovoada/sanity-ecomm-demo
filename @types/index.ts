@@ -9,6 +9,10 @@ export interface Product {
   title: string;
   brand: {
     title: string;
+    slug: {
+      current: string;
+      _type: "slug";
+    };
     _type: "brand";
   };
   slug: {
