@@ -8,6 +8,9 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
 } from "./ui/navigation-menu";
+import { NavigationMenuLink } from "@radix-ui/react-navigation-menu";
+import Link from "next/link";
+import { Brand, Category } from "@/@types";
 
 const phatt = localFont({
   src: "../assets/fonts/Phatt.ttf",
@@ -16,8 +19,8 @@ const phatt = localFont({
 });
 
 interface Props {
-  categories: Record<string, string>[];
-  brands: Record<string, string>[];
+  categories: Category[] | null;
+  brands: Brand[] | null;
 }
 
 const Header = ({ categories, brands }: Props) => {
@@ -35,33 +38,61 @@ const Header = ({ categories, brands }: Props) => {
             <NavigationMenuContent>
               <ul className="grid gap-3 p-4 w-screen lg:grid-cols-[1fr_1fr_1fr]">
                 <li className="row-span-3 text-lg font-semibold">
-                  <span className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md">
-                    All Products
-                  </span>
+                  <NavigationMenuLink asChild>
+                    <Link
+                      href="/store/products"
+                      className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md"
+                    >
+                      All Products
+                    </Link>
+                  </NavigationMenuLink>
                 </li>
                 <li>
-                  <span className="text-lg font-semibold underline">
-                    Categories
-                  </span>
+                  <NavigationMenuLink asChild>
+                    <Link
+                      href="/store/categories"
+                      className="text-lg font-semibold underline"
+                    >
+                      Categories
+                    </Link>
+                  </NavigationMenuLink>
                   <ul className="flex flex-row flex-wrap gap-4 p-2">
-                    {categories.map((category) => (
+                    {categories?.map((category) => (
                       <li
-                        key={category.slug}
+                        key={category.slug.current}
                         className="underline text-gray-700"
                       >
-                        {category.title}
+                        <NavigationMenuLink asChild>
+                          <Link
+                            href={`/store/categories/${category.slug.current}`}
+                          >
+                            {category.title}
+                          </Link>
+                        </NavigationMenuLink>
                       </li>
                     ))}
                   </ul>
                 </li>
                 <li>
-                  <span className="text-lg font-semibold underline">
-                    Brands
-                  </span>
+                  <NavigationMenuLink asChild>
+                    <Link
+                      href="/store/brands"
+                      className="text-lg font-semibold underline"
+                    >
+                      Brands
+                    </Link>
+                  </NavigationMenuLink>
                   <ul className="flex flex-row flex-wrap gap-4 p-2">
-                    {brands.map((brand) => (
-                      <li key={brand.slug} className="underline text-gray-700">
-                        {brand.title}
+                    {brands?.map((brand) => (
+                      <li
+                        key={brand.slug.current}
+                        className="underline text-gray-700"
+                      >
+                        <NavigationMenuLink asChild>
+                          <Link href={`/store/brands/${brand.slug.current}`}>
+                            {brand.title}
+                          </Link>
+                        </NavigationMenuLink>
                       </li>
                     ))}
                   </ul>
