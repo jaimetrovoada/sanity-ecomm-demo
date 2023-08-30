@@ -20,7 +20,9 @@ export interface Product {
     _type: "slug";
   };
   description: string;
-  images: Array<Image>;
+  images: Array<{
+    url: string;
+  }>;
   tags: Array<{
     title: string;
     slug: {
