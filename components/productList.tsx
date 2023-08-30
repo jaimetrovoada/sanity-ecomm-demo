@@ -1,4 +1,5 @@
 import { Product } from "@/@types";
+import ProductCard from "./productCard";
 
 interface Props {
   products: Product[] | null;
@@ -18,11 +19,10 @@ const ProductList = ({ products, category, brand }: Props) => {
       ? filteredProducts
       : products;
 
-  console.log({ filteredProducts });
   return (
-    <div>
+    <div className="grid grid-cols-2 gap-4 md:grid-cols-3 xl:grid-cols-4">
       {finalProducts?.map((product) => (
-        <div key={product.slug.current}>{product.title}</div>
+        <ProductCard key={product.slug.current} product={product} />
       ))}
     </div>
   );
