@@ -5,7 +5,7 @@ import { groq } from "next-sanity";
 export async function getProducts() {
   try {
     const res = await client.fetch<Product[]>(
-      groq`*[_type=="product"]{...,'tags':tags[]->{title, slug}, 'brand':brand->{title, slug}}`,
+      groq`*[_type=="product"]{...,'tags':tags[]->{title, slug}, 'brand':brand->{title, slug}, 'images':images[].asset->{url}}`,
     );
     return [res, null] as const;
   } catch (error) {
