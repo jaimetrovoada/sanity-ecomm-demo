@@ -2,6 +2,7 @@ import { Product } from "@/@types";
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 import Image from "next/image";
 import { AspectRatio } from "./ui/aspect-ratio";
+import Link from "next/link";
 
 interface Prop {
   product: Product;
@@ -13,14 +14,18 @@ const ProductCard = ({ product }: Prop) => {
         <AspectRatio className="bg-muted">
           <Image
             src={product.images[0].url}
-            alt="prod image"
+            alt={`Image of ${product.title}`}
             fill
             className="rounded-md object-cover transition duration-500 group-hover:scale-105"
           />
         </AspectRatio>
       </div>
       <CardHeader className="flex0">
-        <CardTitle className="group-hover:underline">{product.title}</CardTitle>
+        <CardTitle className="group-hover:underline">
+          <Link href={`/store/products/${product.slug.current}`}>
+            {product.title}
+          </Link>
+        </CardTitle>
       </CardHeader>
       <CardContent>
         <div>${product.price}</div>
