@@ -3,7 +3,8 @@ import { getProductBySlug, getProductsByBrand } from "@/lib/queries";
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
-import { ShoppingCartIcon } from "lucide-react";
+import { ArrowRight, ShoppingCartIcon } from "lucide-react";
+import Link from "next/link";
 
 interface Props {
   params: {
@@ -27,7 +28,7 @@ const Page = async ({ params }: Props) => {
 
   return (
     <main className="flex flex-col container max-h-full h-full pb-4 gap-12">
-      <div className="flex flex-col gap-4 md:flex-row flex-1 md:justify-evenly">
+      <div className="flex flex-col gap-4 md:flex-row flex-1 md:justify-evenly bg-white p-2 rounded-md">
         <aside className="w-full md:w-1/3">
           <AspectRatio className="bg-muted">
             <Image
@@ -40,7 +41,7 @@ const Page = async ({ params }: Props) => {
         </aside>
         <section className="flex flex-col ">
           <div>
-            <h2 className="text-sm text-gray-500 tracking-widest">
+            <h2 className="text-gray-500 tracking-widest">
               {product?.brand.title}
             </h2>
           </div>
@@ -62,8 +63,11 @@ const Page = async ({ params }: Props) => {
         </section>
       </div>
       <section>
-        <h3 className="font-semibold text-2xl mb-4">
-          From {product?.brand.title}
+        <h3 className="font-semibold text-2xl mb-4 hover:underline inline-flex gap-1 items-center">
+          <Link href={`/store/products?brand=${product?.brand.slug.current}`}>
+            More From {product?.brand.title}
+          </Link>
+          <ArrowRight className="h-4 w-4" />
         </h3>
         <ul className="grid grid-flow-col auto-cols-max md:auto-cols-[20%] gap-4 overflow-auto snap-x snap-mandatory scroll-smooth max-w-screen-lg mx-auto">
           {[...related!, ...related!]?.map((product) => (
