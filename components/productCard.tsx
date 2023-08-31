@@ -20,16 +20,19 @@ const ProductCard = ({ product }: Prop) => {
           />
         </AspectRatio>
       </div>
-      <CardHeader className="flex0">
-        <CardTitle className="group-hover:underline">
-          <Link href={`/store/products/${product.slug.current}`}>
+      <CardHeader className="flex flex-row justify-between p-2 pt-4 items-center">
+        <CardTitle className="">
+          <Link
+            href={`/store/products/${product.slug.current}`}
+            className="group-hover:underline text-lg line-clamp-1"
+          >
             {product.title}
           </Link>
         </CardTitle>
+        <div className="text-lg font-normal text-gray-600">
+          ${product.price}
+        </div>
       </CardHeader>
-      <CardContent>
-        <div>${product.price}</div>
-      </CardContent>
     </Card>
   );
 };
