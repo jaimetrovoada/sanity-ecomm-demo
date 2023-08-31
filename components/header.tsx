@@ -27,7 +27,7 @@ const Header = ({ categories, brands }: Props) => {
   return (
     <header
       className={cn(
-        "relative border-b border-b-gray-200 p-2 flex flex-row justify-between",
+        "relative border-b border-b-gray-200 p-2 flex flex-row justify-between bg-white",
       )}
     >
       <h1 className={cn("text-3xl", phatt.className)}>
