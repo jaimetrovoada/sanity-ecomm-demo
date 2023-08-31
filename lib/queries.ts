@@ -36,7 +36,7 @@ export async function getProducts(filters: {
 export async function getProductBySlug(slug: string) {
   try {
     const res = await client.fetch<Product>(
-      groq`*[_type=="product" && slug.current == $slug]{title, slug, description, price, brand, tags, images}`,
+      groq`*[_type=="product" && slug.current == $slug][0]{...,'tags':tags[]->{title, slug}, 'brand':brand->{title, slug}, 'images':images[].asset->{url}}`,
       { slug },
     );
     return [res, null] as const;
