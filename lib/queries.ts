@@ -13,12 +13,9 @@ export async function getProducts(filters: {
       ? "&& references(*[_type=='brand' && slug.current == $brand]._id)"
       : "";
     const categoryFilter = filters.category
-      ? `&& references(*[_type=='category' && title == $category]._id)`
+      ? `&& references(*[_type=='category' && slug.current == $category]._id)`
       : "";
-    console.log({
-      filters,
-      query: `*[_type=="product" ${brandFilter} ${categoryFilter}]{...,'tags':tags[]->{title, slug}, 'brand':brand->{title, slug}, 'images':images[].asset->{url}}`,
-    });
+
     const res = await client.fetch<Product[]>(
       groq`*[_type=="product" ${brandFilter} ${categoryFilter}]{...,'tags':tags[]->{title, slug}, 'brand':brand->{title, slug}, 'images':images[].asset->{url}}`,
       {
@@ -50,6 +47,27 @@ export async function getProductsByTag(tag: string) {
     const res = await client.fetch<Product[]>(
       groq`*[_type=="product" && references(*[_type=="category" && title == $categoryName]._id)]{title}`,
       { categoryName: tag },
+    );
+    return [res, null] as const;
+  } catch (error) {
+    return [null, error] as const;
+  }
+}
+
+export async function getProductsByBrand(
+  brand: string,
+  filters?: { limit?: number; currentId?: string },
+) {
+  const limitFilter = filters?.limit ? `[0...${filters?.limit}]` : "";
+  // exclude current product
+
+  console.log({ filters });
+  const excludeCurrentFilter = `&& !(_id == '${filters?.currentId}')`;
+
+  try {
+    const res = await client.fetch<Product[]>(
+      groq`*[_type=="product" && references(*[_type=='brand' && slug.current == $brand]._id) ${excludeCurrentFilter}] ${limitFilter} {...,'tags':tags[]->{title, slug}, 'brand':brand->{title, slug}, 'images':images[].asset->{url}}`,
+      { brand },
     );
     return [res, null] as const;
   } catch (error) {
