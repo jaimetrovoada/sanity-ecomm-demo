@@ -1,6 +1,5 @@
 import FilterList from "@/components/filterList";
 import ProductList from "@/components/productList";
-import SendOrderBtn from "@/components/sendOrderBtn";
 import { getBrands, getCategories, getProducts } from "@/lib/queries";
 import { cn } from "@/lib/utils";
 
@@ -15,8 +14,6 @@ const Page = async ({ searchParams }: Props) => {
   });
   const [categories, cErr] = await getCategories();
   const [brands, bErr] = await getBrands();
-
-  console.log({ products, length: products?.length });
 
   return (
     <main>
