@@ -21,7 +21,7 @@ export default async function RootLayout({
   const [brands, bErr] = await getBrands();
   return (
     <html lang="en">
-      <body className={cn("flex flex-col gap-4", inter.className)}>
+      <body className={cn("flex flex-col gap-4 h-dynamic", inter.className)}>
         <Header categories={categories} brands={brands} />
         {children}
       </body>
