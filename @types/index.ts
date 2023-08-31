@@ -59,3 +59,27 @@ export interface Brand {
   _type: "brand";
   _id: string;
 }
+
+export interface Order {
+  _id?: string;
+  _type: "order";
+  _rev?: string;
+  _createdAt?: string;
+  _updatedAt?: string;
+  orderId: string;
+  slug?: {
+    current: string;
+    _type: "slug";
+  };
+  customer: {
+    name: string;
+    email: string;
+  };
+  products: Array<{
+    _key?: string;
+    _ref: string;
+    _type: "reference";
+  }>;
+  date: string;
+  status: "pending" | "completed" | "cancelled";
+}
