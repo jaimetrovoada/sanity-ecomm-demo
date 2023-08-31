@@ -5,6 +5,7 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, ShoppingCartIcon } from "lucide-react";
 import Link from "next/link";
+import CartButton from "@/components/cartButton";
 
 interface Props {
   params: {
@@ -54,11 +55,9 @@ const Page = async ({ params }: Props) => {
             velit saepe a, officia quas, fugiat dolor ut. In eius facere
             doloremque iusto culpa.
           </p>
-          <div className="flex flex-row justify-between items-center mt-auto border-t-2 border-gray-100">
+          <div className="flex flex-row justify-between items-center mt-auto border-t-2 border-gray-100 py-2">
             <span className="font-medium text-2xl">${product?.price}</span>
-            <Button variant="outline" size="icon">
-              <ShoppingCartIcon className="h-6 w-6" />
-            </Button>
+            <CartButton product={product!} />{" "}
           </div>
         </section>
       </div>
@@ -70,7 +69,7 @@ const Page = async ({ params }: Props) => {
           <ArrowRight className="h-4 w-4" />
         </h3>
         <ul className="grid grid-flow-col auto-cols-max md:auto-cols-[20%] gap-4 overflow-auto snap-x snap-mandatory scroll-smooth max-w-screen-lg mx-auto">
-          {[...related!, ...related!]?.map((product) => (
+          {related?.map((product) => (
             <li
               key={product._id}
               className="snap-start rounded-lg overflow-hidden bg-gray-100 p-2"
