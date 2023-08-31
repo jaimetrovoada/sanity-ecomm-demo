@@ -4,6 +4,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { cn } from "@/lib/utils";
 import { getBrands, getCategories } from "@/lib/queries";
+import CartProvider from "@/components/cartProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -27,8 +28,10 @@ export default async function RootLayout({
           inter.className,
         )}
       >
-        <Header categories={categories} brands={brands} />
-        {children}
+        <CartProvider>
+          <Header categories={categories} brands={brands} />
+          {children}
+        </CartProvider>
       </body>
     </html>
   );
