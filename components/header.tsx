@@ -11,6 +11,7 @@ import {
 import { NavigationMenuLink } from "@radix-ui/react-navigation-menu";
 import Link from "next/link";
 import { Brand, Category } from "@/@types";
+import Cart from "./cart";
 
 const phatt = localFont({
   src: "../assets/fonts/Phatt.ttf",
@@ -35,6 +36,9 @@ const Header = ({ categories, brands }: Props) => {
       </h1>
       <NavigationMenu>
         <NavigationMenuList>
+          <NavigationMenuItem>
+            <Cart />
+          </NavigationMenuItem>
           <NavigationMenuItem>
             <NavigationMenuTrigger>Menu</NavigationMenuTrigger>
             <NavigationMenuContent>
