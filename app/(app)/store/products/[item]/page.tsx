@@ -2,8 +2,7 @@ import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { getProductBySlug, getProductsByBrand } from "@/lib/queries";
 import { notFound } from "next/navigation";
 import Image from "next/image";
-import { Button } from "@/components/ui/button";
-import { ArrowRight, ShoppingCartIcon } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 import CartButton from "@/components/cartButton";
 
