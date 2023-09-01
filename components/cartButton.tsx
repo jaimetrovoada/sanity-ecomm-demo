@@ -19,7 +19,7 @@ const CartButton = ({ product }: Props) => {
     if (prod) {
       const quantity = prod.quantity + 1;
       dispatch({
-        type: CartActions.INCREASE_QUANTITY,
+        type: CartActions.CHANGE_QUANTITY,
         payload: {
           id: product._id,
           quantity,
@@ -27,6 +27,7 @@ const CartButton = ({ product }: Props) => {
           price: product.price,
         },
       });
+
       return toast({
         title: "Item added to cart",
         duration: 1500,

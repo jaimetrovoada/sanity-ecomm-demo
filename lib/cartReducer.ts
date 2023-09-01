@@ -16,7 +16,7 @@ export enum CartActions {
   ADD_ITEM = "ADD_ITEM",
   REMOVE_ITEM = "REMOVE_ITEM",
   CLEAR_CART = "CLEAR_CART",
-  INCREASE_QUANTITY = "CHANGE_QUANTITY",
+  CHANGE_QUANTITY = "CHANGE_QUANTITY",
 }
 
 type CartAction = {
@@ -49,7 +49,7 @@ export const cartReducer = (state: CartState, action: CartAction) => {
         cartItems: [],
         totalPrice: 0,
       };
-    case CartActions.INCREASE_QUANTITY:
+    case CartActions.CHANGE_QUANTITY:
       return {
         cartItems: state.cartItems.map((item) => {
           if (item.id === action.payload.id) {
