@@ -16,7 +16,7 @@ const Page = async ({ searchParams }: Props) => {
   const [brands, bErr] = await getBrands();
 
   return (
-    <main className="p-4">
+    <main className="p-2 md:p-4">
       <div className={cn("flex flex-col md:flex-row gap-4")}>
         <aside className="flex md:flex-col md:w-1/6">
           <section className="flex-1 p-2 md:flex-none">
