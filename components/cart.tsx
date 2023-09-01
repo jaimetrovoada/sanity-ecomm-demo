@@ -7,6 +7,7 @@ import {
 import { ShoppingCart } from "lucide-react";
 import { Button } from "./ui/button";
 import { useCart } from "@/lib/cartReducer";
+import Link from "next/link";
 
 const Cart = () => {
   const { state } = useCart();
@@ -32,7 +33,9 @@ const Cart = () => {
           ))}
         </section>
         <section className="flex flex-row justify-between items-center">
-          <Button size="sm">Checkout</Button>
+          <Button size="sm" asChild>
+            <Link href="/store/checkout">Checkout</Link>
+          </Button>
           <span className="font-semibold">${state.totalPrice}</span>
         </section>
       </NavigationMenuContent>
