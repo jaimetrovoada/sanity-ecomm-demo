@@ -1,5 +1,5 @@
 import { Product } from "@/@types";
-import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
+import { Card, CardHeader, CardTitle } from "./ui/card";
 import Image from "next/image";
 import { AspectRatio } from "./ui/aspect-ratio";
 import Link from "next/link";
@@ -9,27 +9,27 @@ interface Prop {
 }
 const ProductCard = ({ product }: Prop) => {
   return (
-    <Card className="flex flex-col overflow-hidden group">
-      <div className="w-full">
+    <Card className="group flex flex-col overflow-hidden border-0 bg-transparent shadow-none">
+      <div className="w-full overflow-hidden rounded-lg">
         <AspectRatio className="bg-muted">
           <Image
             src={product.images[0].url}
             alt={`Image of ${product.title}`}
             fill
-            className="rounded-md object-cover transition duration-500 group-hover:scale-105"
+            className="object-cover transition duration-500 group-hover:scale-110"
           />
         </AspectRatio>
       </div>
-      <CardHeader className="flex flex-row justify-between p-2 pt-4 items-center">
+      <CardHeader className="flex flex-col justify-between p-2 md:flex-row md:items-center">
         <CardTitle className="">
           <Link
             href={`/store/products/${product.slug.current}`}
-            className="group-hover:underline text-lg line-clamp-1"
+            className="line-clamp-1 text-base group-hover:underline md:text-lg"
           >
             {product.title}
           </Link>
         </CardTitle>
-        <div className="text-lg font-normal text-gray-600">
+        <div className="text-sm font-normal text-gray-600 md:text-base">
           ${product.price}
         </div>
       </CardHeader>
