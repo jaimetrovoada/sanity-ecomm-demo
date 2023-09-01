@@ -5,8 +5,8 @@ import Link from "next/link";
 
 export default function Home() {
   return (
-    <main className="grid grid-rows-2 md:grid-cols-2 md:grid-rows-1 flex-1 gap-2 p-4">
-      <div className="h-full bg-white rounded-md flex flex-col px-4 py-12 shadow-md">
+    <main className="grid grid-rows-2 md:grid-cols-2 md:grid-rows-1 flex-1 gap-2 p-2 md:p-4">
+      <div className="h-full bg-white rounded-md flex flex-col px-4 py-12 shadow-md order-2 md:order-1">
         <h2 className="text-5xl font-bold text-center">
           Lorem ipsum dolor sit amet.
         </h2>
@@ -29,7 +29,7 @@ export default function Home() {
           </p>
         </div>
       </div>
-      <div className="relative overflow-hidden rounded-md bg-[url('/images/hero_image.jpg')] bg-cover bg-center flex items-center justify-center shadow-md">
+      <div className="relative overflow-hidden rounded-md bg-[url('/images/hero_image.jpg')] bg-cover bg-center flex items-center justify-center shadow-md order-1 md:order-2">
         <Button
           className="border-2 border-white px-8 py-4 rounded-full font-bold text-white bg-gray-100/10 backdrop-blur hover:bg-gray-100/25 hover:shadow-sm hover:shadow-white transition-all text-xl"
           variant="link"
