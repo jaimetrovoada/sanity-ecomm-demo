@@ -7,14 +7,23 @@ import {
 import { ShoppingCart } from "lucide-react";
 import { Button } from "./ui/button";
 import { useCart } from "@/lib/cartReducer";
+import { Badge } from "./ui/badge";
 
 const Cart = () => {
   const { state } = useCart();
-  console.log({ state });
+
+  const cartItemsLength = state.cartItems.reduce(
+    (acc, item) => acc + item.quantity,
+    0,
+  );
+
   return (
     <Popover>
-      <PopoverTrigger className="py-2 px-4">
-        <ShoppingCart className="w-4 h-4" />
+      <PopoverTrigger className="py-2 px-4 relative">
+        <Badge className="absolute top-0 right-0 px-1.5">
+          {cartItemsLength}
+        </Badge>
+        <ShoppingCart className="w-8 h-8" />
       </PopoverTrigger>
       <PopoverContent>
         <section className="max-h-28 h-full">
