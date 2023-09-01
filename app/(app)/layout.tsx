@@ -1,5 +1,5 @@
 import Header from "@/components/header";
-import "./globals.css";
+import "../globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { cn } from "@/lib/utils";
@@ -24,10 +24,7 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body
-        className={cn(
-          "flex flex-col gap-4 h-dynamic bg-gray-100",
-          inter.className,
-        )}
+        className={cn("flex flex-col h-dynamic bg-gray-100", inter.className)}
       >
         <CartProvider>
           <Header categories={categories} brands={brands} />
