@@ -1,8 +1,8 @@
 import { Brand, Category, Order, Product } from "@/@types";
 import { client } from "@/sanity/lib/client";
 import { groq } from "next-sanity";
-import { createOrderId } from "@/lib/utils";
 import { nanoid } from "nanoid/async";
+import { CartProduct } from "./cartReducer";
 
 export async function getProducts(filters: {
   brand: string | undefined;
@@ -97,41 +97,46 @@ export async function getBrands() {
   }
 }
 
-export async function createOrder() {
+export async function placeOrder(
+  items: CartProduct[],
+  total: number,
+  customer: { name: string; email: string },
+) {
   const today = new Date();
   const date = today.toISOString();
-  const id = await createOrderId();
 
-  console.log({ id });
+  const id = await nanoid(8);
   const key = await nanoid(12);
 
   const order: Order = {
     _type: "order",
-    orderId: id,
+    title: `${customer.name} - order_${id}`,
     slug: {
       _type: "slug",
-      current: id,
+      current: `order_${id}`,
     },
-    products: [
-      {
-        _type: "reference",
-        _ref: "14893118-86b1-4c58-92fe-579d0ad73024",
+    total: total,
+    items: items.map((item) => {
+      return {
+        title: item.name,
+        quantity: item.quantity,
         _key: key,
-      },
-    ],
-    customer: {
-      name: "test",
-      email: "3kY8Y@example.com",
-    },
+        product: {
+          _type: "reference",
+          _ref: item.id,
+        },
+      };
+    }),
+    customer: customer,
     status: "pending",
     date: date,
   };
+
   try {
     const res = await client.create(order);
-    console.log({ res });
-    return [res, null] as const;
+    return res;
   } catch (error) {
     console.log({ error });
-    return [null, error] as const;
+    return error;
   }
 }
