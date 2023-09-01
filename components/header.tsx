@@ -36,9 +36,7 @@ const Header = ({ categories, brands }: Props) => {
       </h1>
       <NavigationMenu>
         <NavigationMenuList>
-          <NavigationMenuItem>
-            <Cart />
-          </NavigationMenuItem>
+          <Cart />
           <NavigationMenuItem>
             <NavigationMenuTrigger>Menu</NavigationMenuTrigger>
             <NavigationMenuContent>
