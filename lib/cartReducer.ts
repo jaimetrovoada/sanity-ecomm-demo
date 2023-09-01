@@ -1,6 +1,6 @@
 import { createContext, useContext } from "react";
 
-type CartProduct = {
+export type CartProduct = {
   id: string;
   name: string;
   price: number;
