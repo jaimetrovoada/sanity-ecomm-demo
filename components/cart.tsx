@@ -18,8 +18,8 @@ const Cart = () => {
         <span className="text-sm">Cart ({state.cartItems.length})</span>
       </NavigationMenuTrigger>
       <NavigationMenuContent className="p-4 w-screen md:w-[33vw] flex flex-col">
-        <section className="flex-1">
-          <h2>Cart</h2>
+        <h2 className="font-semibold text-lg">Cart</h2>
+        <section className="flex-1 p-2 text-gray-700">
           {state.cartItems.map((item) => (
             <div key={item.id} className="flex flex-row justify-between">
               <span>{item.name}</span>
@@ -27,9 +27,9 @@ const Cart = () => {
             </div>
           ))}
         </section>
-        <section className="flex flex-row justify-between">
+        <section className="flex flex-row justify-between items-center">
           <Button size="sm">Checkout</Button>
-          <span>${state.totalPrice}</span>
+          <span className="font-semibold">${state.totalPrice}</span>
         </section>
       </NavigationMenuContent>
     </NavigationMenuItem>
