@@ -3,6 +3,7 @@ import { Product } from "@/@types";
 import { Button } from "@/components/ui/button";
 import { CartActions, useCart } from "@/lib/cartReducer";
 import { ShoppingCartIcon } from "lucide-react";
+import { useToast } from "./ui/use-toast";
 
 interface Props {
   product: Product;
@@ -10,15 +11,14 @@ interface Props {
 
 const CartButton = ({ product }: Props) => {
   const { state, dispatch } = useCart();
+  const { toast } = useToast();
 
   const addToCart = () => {
-    console.log("add to cart");
-
     const prod = state.cartItems.find((item) => item.id === product._id);
 
     if (prod) {
       const quantity = prod.quantity + 1;
-      return dispatch({
+      dispatch({
         type: CartActions.INCREASE_QUANTITY,
         payload: {
           id: product._id,
@@ -27,9 +27,13 @@ const CartButton = ({ product }: Props) => {
           price: product.price,
         },
       });
+      return toast({
+        title: "Item added to cart",
+        duration: 1500,
+      });
     }
 
-    return dispatch({
+    dispatch({
       type: CartActions.ADD_ITEM,
       payload: {
         id: product._id,
@@ -37,6 +41,11 @@ const CartButton = ({ product }: Props) => {
         name: product.title,
         price: product.price,
       },
+    });
+
+    return toast({
+      title: "Item added to cart",
+      duration: 1500,
     });
   };
 
