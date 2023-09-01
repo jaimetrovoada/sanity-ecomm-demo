@@ -11,11 +11,15 @@ import { useCart } from "@/lib/cartReducer";
 const Cart = () => {
   const { state } = useCart();
 
+  const cartQuantity = state.cartItems.reduce((acc, item) => {
+    return acc + item.quantity;
+  }, 0);
+
   return (
     <NavigationMenuItem>
       <NavigationMenuTrigger className="">
         <ShoppingCart size={14} />
-        <span className="text-sm">Cart ({state.cartItems.length})</span>
+        <span className="text-sm">Cart ({cartQuantity})</span>
       </NavigationMenuTrigger>
       <NavigationMenuContent className="p-4 w-screen md:w-[33vw] flex flex-col">
         <h2 className="font-semibold text-lg">Cart</h2>
