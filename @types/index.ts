@@ -66,7 +66,7 @@ export interface Order {
   _rev?: string;
   _createdAt?: string;
   _updatedAt?: string;
-  orderId: string;
+  title: string;
   slug?: {
     current: string;
     _type: "slug";
@@ -75,10 +75,15 @@ export interface Order {
     name: string;
     email: string;
   };
-  products: Array<{
-    _key?: string;
-    _ref: string;
-    _type: "reference";
+  total: number;
+  items: Array<{
+    _key: string;
+    title: string;
+    quantity: number;
+    product: {
+      _ref: string;
+      _type: "reference";
+    };
   }>;
   date: string;
   status: "pending" | "completed" | "cancelled";
