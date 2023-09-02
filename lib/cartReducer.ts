@@ -7,7 +7,7 @@ export type CartProduct = {
   quantity: number;
 };
 
-interface CartState {
+export interface CartState {
   cartItems: CartProduct[];
   totalPrice: number;
 }
