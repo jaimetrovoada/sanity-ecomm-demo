@@ -5,12 +5,14 @@ import Image from "next/image";
 import CartButton from "@/components/cartButton";
 import WishlistButton from "@/components/wishlistButton";
 import RelatedProductsList from "@/components/relatedProductsList";
+import type { Metadata } from "next";
 
 interface Props {
   params: {
     item: string;
   };
 }
+
 const Page = async ({ params }: Props) => {
   const { item } = params;
   const [product, err] = await getProductBySlug(item);
@@ -62,3 +64,30 @@ const Page = async ({ params }: Props) => {
 };
 
 export default Page;
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { item } = params;
+  const [product, _] = await getProductBySlug(item);
+
+  return {
+    title: product?.title,
+    openGraph: {
+      title: product?.title,
+      url: `/products/${item}`,
+      images: {
+        url: `/api/og?product=${product?.slug.current}`,
+        alt: `Oxygen Store - ${product?.title}`,
+      },
+      locale: "en_US",
+      type: "website",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: product?.title,
+      images: {
+        url: `/api/og?product=${product?.slug.current}`,
+        alt: `Oxygen Store - ${product?.title}`,
+      },
+    },
+  };
+}
