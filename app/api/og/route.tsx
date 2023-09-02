@@ -15,15 +15,68 @@ export async function GET(req: NextRequest) {
     const productSlug = searchParams.get("product");
     const res = productSlug ? await getProductBySlug(productSlug) : null;
 
-    if (res) {
-      if (!(res instanceof Error)) {
-        title = res.title;
-      }
-    }
-
     const image = await fetch(
       new URL("../../../assets/images/og_bg.png", import.meta.url),
     ).then((res) => res.arrayBuffer());
+
+    if (!res || res instanceof Error) {
+      return new ImageResponse(
+        (
+          <div
+            style={{
+              background: `url(data:image/png;base64,${Buffer.from(
+                image,
+              ).toString("base64")})`,
+              backgroundSize: "cover",
+              height: "100%",
+              width: "100%",
+              display: "flex",
+              padding: 64,
+              fontStyle: "normal",
+              color: "white",
+              lineHeight: 1.4,
+              whiteSpace: "pre-wrap",
+              flexDirection: "row",
+              justifyContent: "center",
+              alignItems: "center",
+              gap: 12,
+            }}
+          >
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                flex: 1,
+              }}
+            >
+              {title ? (
+                <span
+                  style={{
+                    fontSize: 64,
+                    fontWeight: "bold",
+                  }}
+                >
+                  {title}
+                </span>
+              ) : null}
+              <span
+                style={{
+                  fontSize: title ? 32 : 64,
+                  fontWeight: title ? "bold" : "normal",
+                }}
+              >
+                Oxygen Store
+              </span>
+            </div>
+          </div>
+        ),
+        {
+          width: 1200,
+          height: 630,
+          emoji: "noto",
+        },
+      );
+    }
 
     return new ImageResponse(
       (
@@ -37,7 +90,6 @@ export async function GET(req: NextRequest) {
             width: "100%",
             display: "flex",
             padding: 64,
-            fontSize: 64,
             fontStyle: "normal",
             color: "white",
             lineHeight: 1.4,
@@ -55,44 +107,41 @@ export async function GET(req: NextRequest) {
               flex: 1,
             }}
           >
-            {title ? (
-              <span
-                style={{
-                  fontWeight: "bold",
-                }}
-              >
-                {title}
-              </span>
-            ) : null}
             <span
               style={{
-                fontSize: title ? 32 : 64,
-                fontWeight: title ? "bold" : "normal",
+                fontSize: 64,
+                fontWeight: "bold",
+              }}
+            >
+              {res.title}
+            </span>
+            <span
+              style={{
+                fontSize: 32,
+                fontWeight: "normal",
               }}
             >
               Oxygen Store
             </span>
           </div>
-          {res ? (
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                width: 256,
-                height: 256,
-                borderRadius: "24px",
-                overflow: "hidden",
-              }}
-            >
-              <img
-                style={{ objectFit: "cover" }}
-                src={res.images[0].url}
-                width="256"
-                height="256"
-                alt="product image"
-              />
-            </div>
-          ) : null}
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              width: 256,
+              height: 256,
+              borderRadius: "24px",
+              overflow: "hidden",
+            }}
+          >
+            <img
+              style={{ objectFit: "cover" }}
+              src={res.images[0].url}
+              width="256"
+              height="256"
+              alt="product image"
+            />
+          </div>
         </div>
       ),
       {
