@@ -34,14 +34,14 @@ const Page = async ({ params }: Props) => {
             />
           </AspectRatio>
         </aside>
-        <section className="flex flex-col ">
+        <section className="flex w-full max-w-prose flex-col">
           <div>
             <h2 className="tracking-widest text-gray-500">
               {product?.brand.title}
             </h2>
           </div>
           <h1 className="text-3xl font-semibold">{product?.title}</h1>
-          <p className="mt-8 w-full max-w-prose leading-relaxed text-gray-600">
+          <p className="mt-8 leading-relaxed text-gray-600">
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Sapiente
             eveniet praesentium inventore fugit exercitationem amet ex cum
             cumque iure dolor? Excepturi impedit modi ad molestiae tenetur
