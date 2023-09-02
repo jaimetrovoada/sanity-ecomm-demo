@@ -1,5 +1,3 @@
-import Image from "next/image";
-import HeroImg from "@/assets/images/hero_image.jpg";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
