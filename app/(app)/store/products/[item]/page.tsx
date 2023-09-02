@@ -1,11 +1,10 @@
 import { AspectRatio } from "@/components/ui/aspect-ratio";
-import { getProductBySlug, getProductsByBrand } from "@/lib/queries";
+import { getProductBySlug } from "@/lib/queries";
 import { notFound } from "next/navigation";
 import Image from "next/image";
-import { ArrowRight } from "lucide-react";
-import Link from "next/link";
 import CartButton from "@/components/cartButton";
 import WishlistButton from "@/components/wishlistButton";
+import RelatedProductsList from "@/components/relatedProductsList";
 
 interface Props {
   params: {
@@ -15,21 +14,14 @@ interface Props {
 const Page = async ({ params }: Props) => {
   const { item } = params;
   const [product, err] = await getProductBySlug(item);
-  const [related, rErr] = await getProductsByBrand(
-    product?.brand.slug.current!,
-    {
-      limit: 5,
-      currentId: product?._id,
-    },
-  );
 
   if (err) {
     notFound();
   }
 
   return (
-    <main className="container flex h-full max-h-full flex-col gap-12 pb-4">
-      <div className="flex flex-1 flex-col gap-4 rounded-md bg-white p-2 md:flex-row md:justify-evenly">
+    <main className="container flex h-full max-h-full flex-col gap-12 p-2 md:p-4">
+      <div className="flex flex-col gap-4 rounded-md bg-white p-2 md:flex-row md:justify-evenly">
         <aside className="w-full md:w-1/3">
           <AspectRatio className="bg-muted">
             <Image
@@ -64,6 +56,7 @@ const Page = async ({ params }: Props) => {
           </div>
         </section>
       </div>
+      <RelatedProductsList product={product!} />
     </main>
   );
 };
