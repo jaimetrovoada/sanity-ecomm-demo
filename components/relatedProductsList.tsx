@@ -3,7 +3,7 @@ import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { getProductsByBrand } from "@/lib/queries";
 import { Suspense } from "react";
-import ProductCard from "./productCard";
+import ProductCard, { ProductCardSkeleton } from "./productCard";
 
 interface Props {
   product: Product;
@@ -26,15 +26,32 @@ const RelatedProductsList = async ({ product }: Props) => {
         </Link>
         <ArrowRight className="h-4 w-4" />
       </h3>
-      <Suspense fallback={<p>Loading...</p>}>
-        <ul className="mx-auto grid max-w-screen-lg snap-x snap-mandatory auto-cols-max grid-flow-col gap-4 overflow-auto scroll-smooth md:auto-cols-[20%]">
+      <ul className="mx-auto grid max-w-screen-lg snap-x snap-mandatory auto-cols-max grid-flow-col gap-4 overflow-auto scroll-smooth md:auto-cols-[20%]">
+        <Suspense
+          fallback={
+            <>
+              <li>
+                <ProductCardSkeleton />
+              </li>
+              <li>
+                <ProductCardSkeleton />
+              </li>
+              <li>
+                <ProductCardSkeleton />
+              </li>
+              <li>
+                <ProductCardSkeleton />
+              </li>
+            </>
+          }
+        >
           {related?.map((product) => (
             <li key={product._id} className="snap-start">
               <ProductCard product={product} />
             </li>
           ))}
-        </ul>
-      </Suspense>
+        </Suspense>
+      </ul>
     </section>
   );
 };
