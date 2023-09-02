@@ -5,6 +5,7 @@ import Image from "next/image";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 import CartButton from "@/components/cartButton";
+import WishlistButton from "@/components/wishlistButton";
 
 interface Props {
   params: {
@@ -56,39 +57,13 @@ const Page = async ({ params }: Props) => {
           </p>
           <div className="mt-auto flex flex-row items-center justify-between border-t-2 border-gray-100 py-2">
             <span className="text-2xl font-medium">${product?.price}</span>
-            <CartButton product={product!} />{" "}
+            <div className="flex flex-row gap-2">
+              <WishlistButton product={product!} />
+              <CartButton product={product!} />
+            </div>
           </div>
         </section>
       </div>
-      <section>
-        <h3 className="mb-4 inline-flex items-center gap-1 text-2xl font-semibold hover:underline">
-          <Link href={`/store/products?brand=${product?.brand.slug.current}`}>
-            More From {product?.brand.title}
-          </Link>
-          <ArrowRight className="h-4 w-4" />
-        </h3>
-        <ul className="mx-auto grid max-w-screen-lg snap-x snap-mandatory auto-cols-max grid-flow-col gap-4 overflow-auto scroll-smooth md:auto-cols-[20%]">
-          {related?.map((product) => (
-            <li
-              key={product._id}
-              className="snap-start overflow-hidden rounded-lg bg-gray-100 p-2"
-            >
-              <div className="w-full">
-                <AspectRatio className="bg-muted">
-                  <Image
-                    src={product?.images[0].url!}
-                    alt={`Image of ${product?.title}`}
-                    fill
-                    className="rounded-md object-cover"
-                  />
-                </AspectRatio>
-              </div>
-
-              <span>{product?.title}</span>
-            </li>
-          ))}
-        </ul>
-      </section>
     </main>
   );
 };
