@@ -1,5 +1,3 @@
-import { Image } from "sanity";
-
 export interface Product {
   price: number;
   _rev: string;
@@ -88,3 +86,8 @@ export interface Order {
   date: string;
   status: "pending" | "completed" | "cancelled";
 }
+
+export type WishlistItem = {
+  name: string;
+  slug: string;
+};
