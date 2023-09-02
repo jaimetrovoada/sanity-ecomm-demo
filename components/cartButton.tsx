@@ -51,8 +51,13 @@ const CartButton = ({ product }: Props) => {
   };
 
   return (
-    <Button variant="outline" size="icon" onClick={addToCart}>
-      <ShoppingCartIcon className="h-6 w-6" />
+    <Button
+      variant="outline"
+      size="icon"
+      className="bg-yellow-400"
+      onClick={addToCart}
+    >
+      <ShoppingCartIcon size={24} className="" />
     </Button>
   );
 };
