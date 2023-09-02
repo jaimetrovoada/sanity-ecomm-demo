@@ -15,9 +15,9 @@ interface Props {
 
 const Page = async ({ params }: Props) => {
   const { item } = params;
-  const [product, err] = await getProductBySlug(item);
+  const product = await getProductBySlug(item);
 
-  if (err) {
+  if (product instanceof Error) {
     notFound();
   }
 
@@ -67,7 +67,11 @@ export default Page;
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { item } = params;
-  const [product, _] = await getProductBySlug(item);
+  const product = await getProductBySlug(item);
+
+  if (product instanceof Error) {
+    return {};
+  }
 
   return {
     title: product?.title,

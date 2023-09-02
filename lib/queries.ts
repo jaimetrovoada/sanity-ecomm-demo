@@ -36,9 +36,13 @@ export async function getProductBySlug(slug: string) {
       groq`*[_type=="product" && slug.current == $slug][0]{...,'tags':tags[]->{title, slug}, 'brand':brand->{title, slug}, 'images':images[].asset->{url}}`,
       { slug },
     );
-    return [res, null] as const;
+    if (res === null) {
+      throw new Error("Product not found");
+    }
+    return res as Product;
   } catch (error) {
-    return [null, error] as const;
+    console.log({ error });
+    return error as Error;
   }
 }
 
@@ -59,9 +63,7 @@ export async function getProductsByBrand(
   filters?: { limit?: number; currentId?: string },
 ) {
   const limitFilter = filters?.limit ? `[0...${filters?.limit}]` : "";
-  // exclude current product
 
-  console.log({ filters });
   const excludeCurrentFilter = `&& !(_id == '${filters?.currentId}')`;
 
   try {

@@ -13,12 +13,12 @@ export async function GET(req: NextRequest) {
     let title = hasTitle ? searchParams.get("title")?.slice(0, 100) : null;
 
     const productSlug = searchParams.get("product");
-    const [res, _] = productSlug
-      ? await getProductBySlug(productSlug)
-      : [null, null];
+    const res = productSlug ? await getProductBySlug(productSlug) : null;
 
     if (res) {
-      title = res.title;
+      if (!(res instanceof Error)) {
+        title = res.title;
+      }
     }
 
     const image = await fetch(
