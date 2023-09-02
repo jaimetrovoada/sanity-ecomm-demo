@@ -18,7 +18,7 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body
-        className={cn("flex flex-col h-dynamic bg-gray-200", inter.className)}
+        className={cn("flex h-dynamic flex-col bg-gray-200", inter.className)}
       >
         {children}
       </body>

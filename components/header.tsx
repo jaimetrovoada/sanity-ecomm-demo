@@ -28,7 +28,7 @@ const Header = ({ categories, brands }: Props) => {
   return (
     <header
       className={cn(
-        "relative border-b border-b-gray-200 py-2 px-4 flex flex-row justify-between bg-white",
+        "relative flex flex-row justify-between border-b border-b-gray-200 bg-white px-4 py-2",
       )}
     >
       <h1 className={cn("text-3xl", phatt.className)}>
@@ -40,7 +40,7 @@ const Header = ({ categories, brands }: Props) => {
           <NavigationMenuItem>
             <NavigationMenuTrigger>Menu</NavigationMenuTrigger>
             <NavigationMenuContent>
-              <ul className="grid gap-3 p-4 w-screen lg:grid-cols-[1fr_1fr_1fr]">
+              <ul className="grid w-screen gap-3 p-4 lg:grid-cols-[1fr_1fr_1fr]">
                 <li className="row-span-3 text-lg font-semibold">
                   <NavigationMenuLink asChild>
                     <Link
@@ -59,7 +59,7 @@ const Header = ({ categories, brands }: Props) => {
                     {categories?.map((category) => (
                       <li
                         key={category.slug.current}
-                        className="underline text-gray-700"
+                        className="text-gray-700 underline"
                       >
                         <NavigationMenuLink asChild>
                           <Link
@@ -80,7 +80,7 @@ const Header = ({ categories, brands }: Props) => {
                     {brands?.map((brand) => (
                       <li
                         key={brand.slug.current}
-                        className="underline text-gray-700"
+                        className="text-gray-700 underline"
                       >
                         <NavigationMenuLink asChild>
                           <Link

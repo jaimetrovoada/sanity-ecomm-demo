@@ -24,7 +24,7 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body
-        className={cn("flex flex-col h-dynamic bg-gray-100", inter.className)}
+        className={cn("flex h-dynamic flex-col bg-gray-100", inter.className)}
       >
         <CartProvider>
           <Header categories={categories} brands={brands} />

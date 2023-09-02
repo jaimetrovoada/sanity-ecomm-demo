@@ -84,18 +84,18 @@ const Page = () => {
   };
 
   return (
-    <main className="h-full flex flex-col md:flex-row px-4">
-      <aside className="md:flex-1 p-4">
-        <h2 className="font-semibold text-2xl mb-2">Your Items</h2>
+    <main className="flex h-full flex-col px-4 md:flex-row">
+      <aside className="p-4 md:flex-1">
+        <h2 className="mb-2 text-2xl font-semibold">Your Items</h2>
         <div>
           {state.cartItems.map((item) => (
             <div
               key={item.id}
-              className="flex flex-row justify-between items-center py-2 border-b border-gray-200 group"
+              className="group flex flex-row items-center justify-between border-b border-gray-200 py-2"
             >
               <div className="flex flex-col">
                 <span>{item.name}</span>
-                <span className="text-gray-700 text-sm">
+                <span className="text-sm text-gray-700">
                   {item.price.toLocaleString("en-US", {
                     style: "currency",
                     currency: "USD",
@@ -103,7 +103,7 @@ const Page = () => {
                 </span>
               </div>
               <div className="flex flex-row gap-2">
-                <div className="border border-gray-200 flex flex-row items-center rounded-lg [&>*]:flex-1">
+                <div className="flex flex-row items-center rounded-lg border border-gray-200 [&>*]:flex-1">
                   <Button
                     variant="ghost"
                     size="icon"
@@ -133,12 +133,12 @@ const Page = () => {
           ))}
         </div>
       </aside>
-      <section className="md:flex-1 p-4 bg-white rounded-md shadow-md flex flex-col">
-        <h2 className="font-semibold text-2xl mb-2">Order Details</h2>
+      <section className="flex flex-col rounded-md bg-white p-4 shadow-md md:flex-1">
+        <h2 className="mb-2 text-2xl font-semibold">Order Details</h2>
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
-            className="flex flex-col gap-8 flex-1"
+            className="flex flex-1 flex-col gap-8"
           >
             <FormField
               control={form.control}
@@ -166,7 +166,7 @@ const Page = () => {
                 </FormItem>
               )}
             />
-            <div className="flex flex-row justify-between font-semibold mt-auto">
+            <div className="mt-auto flex flex-row justify-between font-semibold">
               <span>Total:</span>
               <span>
                 {state.totalPrice.toLocaleString("en-US", {

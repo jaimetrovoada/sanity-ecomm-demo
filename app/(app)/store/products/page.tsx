@@ -17,8 +17,8 @@ const Page = async ({ searchParams }: Props) => {
 
   return (
     <main className="p-2 md:p-4">
-      <div className={cn("flex flex-col md:flex-row gap-4")}>
-        <aside className="flex md:flex-col md:w-1/6">
+      <div className={cn("flex flex-col gap-4 md:flex-row")}>
+        <aside className="flex md:w-1/6 md:flex-col">
           <section className="flex-1 p-2 md:flex-none">
             <h2 className={cn("font-semibold")}>Categories</h2>
             <FilterList list={categories} parameter="category" />
@@ -28,7 +28,7 @@ const Page = async ({ searchParams }: Props) => {
             <FilterList list={brands} parameter="brand" />
           </section>
         </aside>
-        <section className={cn("flex flex-col flex-1")}>
+        <section className={cn("flex flex-1 flex-col")}>
           <ProductList
             products={products}
             category={category as string}
