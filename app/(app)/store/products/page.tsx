@@ -1,4 +1,5 @@
 import FilterList from "@/components/filterList";
+import Pagination from "@/components/pagination";
 import ProductList from "@/components/productList";
 import { getBrands, getCategories, getProducts } from "@/lib/queries";
 import { cn } from "@/lib/utils";
@@ -9,17 +10,18 @@ interface Props {
 }
 
 const Page = async ({ searchParams }: Props) => {
-  const { category, brand } = searchParams;
+  const { category, brand, page } = searchParams;
   const [products, _] = await getProducts({
     category: category as string,
     brand: brand as string,
+    pageIndex: page as string,
   });
   const [categories, cErr] = await getCategories();
   const [brands, bErr] = await getBrands();
 
   return (
-    <main className="p-2 md:p-4">
-      <div className={cn("flex flex-col gap-4 md:flex-row")}>
+    <main className="flex flex-1 flex-col p-2 md:overflow-hidden md:p-4">
+      <div className={cn("flex h-full flex-col gap-4 md:flex-row")}>
         <aside className="flex md:w-1/6 md:flex-col">
           <section className="flex-1 p-2 md:flex-none">
             <h2 className={cn("font-semibold")}>Categories</h2>
@@ -32,12 +34,16 @@ const Page = async ({ searchParams }: Props) => {
         </aside>
         <section className={cn("flex flex-1 flex-col")}>
           <ProductList
-            products={products}
+            products={products?.products!}
             category={category as string}
             brand={brand as string}
           />
         </section>
       </div>
+      <Pagination
+        count={Math.ceil(products?.totalPageCount!)}
+        currentPage={(page as string) || "1"}
+      />
     </main>
   );
 };
