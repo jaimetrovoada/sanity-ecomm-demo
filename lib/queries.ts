@@ -1,4 +1,11 @@
-import { Brand, Category, Order, Product, Collection } from "@/@types";
+import {
+  Brand,
+  Category,
+  Order,
+  Product,
+  Collection,
+  PaginatedProducts,
+} from "@/@types";
 import { client } from "@/sanity/lib/client";
 import { groq } from "next-sanity";
 import { nanoid } from "nanoid/async";
@@ -7,7 +14,10 @@ import { CartProduct } from "./cartReducer";
 export async function getProducts(filters: {
   brand: string | undefined;
   category: string | undefined;
+  pageIndex: string | undefined;
 }) {
+  const ITEMS_PER_PAGE = 5;
+  const pageIndex = parseInt(filters.pageIndex || "1");
   try {
     const brandFilter = filters.brand
       ? "&& references(*[_type=='brand' && slug.current == $brand]._id)"
@@ -16,11 +26,18 @@ export async function getProducts(filters: {
       ? `&& references(*[_type=='category' && slug.current == $category]._id)`
       : "";
 
-    const res = await client.fetch<Product[]>(
-      groq`*[_type=="product" ${brandFilter} ${categoryFilter}]{...,'tags':tags[]->{title, slug}, 'brand':brand->{title, slug}, 'images':images[].asset->{url}}`,
+    const res = await client.fetch<PaginatedProducts>(
+      groq`{
+  'products':*[_type=="product" ${brandFilter} ${categoryFilter}][($pageIndex * $itemsPerPage)...($pageIndex + 1) * $itemsPerPage]{...,'tags':tags[]->{title, slug}, 'brand':brand->{title, slug}, 'images':images[].asset->{url}},
+  'totalPageCount': count(*[_type=='product']) / $itemsPerPage,
+'currentPage': $pageIndex + 1
+
+}`,
       {
         brand: filters.brand || null,
         category: filters.category || null,
+        itemsPerPage: ITEMS_PER_PAGE,
+        pageIndex: pageIndex - 1,
       },
     );
     return [res, null] as const;
