@@ -1,3 +1,6 @@
+import type { SanityDocument } from "@sanity/client";
+import { Slug, Reference } from "sanity";
+
 export interface Product {
   price: number;
   _rev: string;
@@ -90,4 +93,17 @@ export interface Order {
 export type WishlistItem = {
   name: string;
   slug: string;
+};
+
+export type Featured = {
+  _key?: string;
+  product?: Product;
+  featured?: boolean;
+};
+
+export type Collection = SanityDocument & {
+  title: string;
+  slug: Slug;
+  description: string;
+  recommendations: Array<Featured>;
 };
