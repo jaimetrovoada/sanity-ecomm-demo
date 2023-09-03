@@ -1,4 +1,4 @@
-import { Brand, Category, Order, Product } from "@/@types";
+import { Brand, Category, Order, Product, Collection } from "@/@types";
 import { client } from "@/sanity/lib/client";
 import { groq } from "next-sanity";
 import { nanoid } from "nanoid/async";
@@ -96,6 +96,21 @@ export async function getBrands() {
     return [res, null] as const;
   } catch (error) {
     return [null, error] as const;
+  }
+}
+
+export async function getCollections(): Promise<Collection[] | Error> {
+  try {
+    const res = await client.fetch<Collection[]>(groq`*[
+    _type=="collection"]
+  {...,
+    'recommendations':recommendations[]{..., product->{...,'tags':tags[]->{title, slug}, 'brand':brand->{title, slug}, 'images':images[].asset->{url}}},
+  }`);
+
+    return res as Collection[];
+  } catch (error) {
+    console.log({ error });
+    return error as Error;
   }
 }
 
