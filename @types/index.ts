@@ -1,5 +1,5 @@
 import type { SanityDocument } from "@sanity/client";
-import { Slug, Reference } from "sanity";
+import { Slug } from "sanity";
 
 export interface Product {
   price: number;
@@ -34,6 +34,12 @@ export interface Product {
   }>;
   _createdAt: string;
 }
+
+export type PaginatedProducts = {
+  products: Product[];
+  totalPageCount: number;
+  currentPage: number;
+};
 
 export interface Category {
   _rev: string;
