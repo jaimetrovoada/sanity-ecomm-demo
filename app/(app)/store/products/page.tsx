@@ -20,7 +20,7 @@ const Page = async ({ searchParams }: Props) => {
 
   const categories = await getCategories();
   const brands = await getBrands();
-  console.log({categories, brands})
+  console.log({ categories, brands });
 
   let categoriesData: Category[] = [];
   let brandsData: Brand[] = [];

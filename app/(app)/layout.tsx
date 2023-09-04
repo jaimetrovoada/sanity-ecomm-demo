@@ -59,7 +59,7 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const categories  = await getCategories();
+  const categories = await getCategories();
   const brands = await getBrands();
 
   let categoriesData: Category[] = [];

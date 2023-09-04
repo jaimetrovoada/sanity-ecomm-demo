@@ -137,7 +137,7 @@ export async function getCollections(): Promise<Collection[] | Error> {
                       'images':images[].asset->{url}
                       }
                   },
-              }`
+              }`,
     );
 
     return res as Collection[];

@@ -18,7 +18,7 @@ const Page = async ({ params }: Props) => {
   const product = await getProductBySlug(item);
 
   if (product instanceof Error) {
-    return product
+    return product;
   }
 
   if (!product) {

@@ -16,7 +16,7 @@ const RelatedProductsList = async ({ product }: Props) => {
   );
 
   if (related instanceof Error) {
-    return 
+    return;
   }
 
   return (
