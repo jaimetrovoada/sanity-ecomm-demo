@@ -12,50 +12,63 @@ import { nanoid } from "nanoid/async";
 import { CartProduct } from "./cartReducer";
 
 export async function getProducts(filters: {
-  brand: string | undefined;
-  category: string | undefined;
-  pageIndex: string | undefined;
-}) {
+  brand?: string;
+  category?: string;
+  pageIndex?: string;
+}): Promise<PaginatedProducts | Error> {
   const ITEMS_PER_PAGE = 5;
   const pageIndex = parseInt(filters.pageIndex || "1");
+
+  const brandFilter = filters.brand
+    ? "&& references(*[_type=='brand' && slug.current == $brand]._id)"
+    : "";
+
+  const categoryFilter = filters.category
+    ? `&& references(*[_type=='category' && slug.current == $category]._id)`
+    : "";
+
   try {
-    const brandFilter = filters.brand
-      ? "&& references(*[_type=='brand' && slug.current == $brand]._id)"
-      : "";
-    const categoryFilter = filters.category
-      ? `&& references(*[_type=='category' && slug.current == $category]._id)`
-      : "";
-
     const res = await client.fetch<PaginatedProducts>(
-      groq`{
-  'products':*[_type=="product" ${brandFilter} ${categoryFilter}][($pageIndex * $itemsPerPage)...($pageIndex + 1) * $itemsPerPage]{...,'tags':tags[]->{title, slug}, 'brand':brand->{title, slug}, 'images':images[].asset->{url}},
-  'totalPageCount': count(*[_type=='product']) / $itemsPerPage,
-'currentPage': $pageIndex + 1
-
+      groq`
+{
+    'products': *[_type=="product" ${brandFilter} ${categoryFilter}]
+      [($pageIndex * $itemsPerPage)...($pageIndex + 1) * $itemsPerPage]
+      {
+        ...,
+        'tags': tags[]->{title, slug},
+        'brand': brand->{title, slug},
+        'images': images[].asset->{url}
+      },
+    'totalPageCount': count(*[_type=='product' ${brandFilter} ${categoryFilter}]) / $itemsPerPage,
+    'currentPage': $pageIndex + 1
 }`,
       {
-        brand: filters.brand || null,
-        category: filters.category || null,
+        brand: filters.brand || "",
+        category: filters.category || "",
         itemsPerPage: ITEMS_PER_PAGE,
         pageIndex: pageIndex - 1,
       },
     );
-    return [res, null] as const;
+    return res as PaginatedProducts;
   } catch (error) {
     console.log({ error });
-    return [null, error] as const;
+    return error as Error;
   }
 }
 
-export async function getProductBySlug(slug: string) {
+export async function getProductBySlug(slug: string): Promise<Product | Error> {
   try {
     const res = await client.fetch<Product>(
-      groq`*[_type=="product" && slug.current == $slug][0]{...,'tags':tags[]->{title, slug}, 'brand':brand->{title, slug}, 'images':images[].asset->{url}}`,
+      groq`*[_type=="product" && slug.current == $slug][0]
+            {
+              ...,
+              'tags':tags[]->{title, slug},
+              'brand':brand->{title, slug},
+              'images':images[].asset->{url}
+            }`,
       { slug },
     );
-    if (res === null) {
-      throw new Error("Product not found");
-    }
+
     return res as Product;
   } catch (error) {
     console.log({ error });
@@ -63,66 +76,69 @@ export async function getProductBySlug(slug: string) {
   }
 }
 
-export async function getProductsByTag(tag: string) {
-  try {
-    const res = await client.fetch<Product[]>(
-      groq`*[_type=="product" && references(*[_type=="category" && title == $categoryName]._id)]{title}`,
-      { categoryName: tag },
-    );
-    return [res, null] as const;
-  } catch (error) {
-    return [null, error] as const;
-  }
-}
-
-export async function getProductsByBrand(
+export async function getSameBrandProducts(
   brand: string,
-  filters?: { limit?: number; currentId?: string },
-) {
-  const limitFilter = filters?.limit ? `[0...${filters?.limit}]` : "";
-
-  const excludeCurrentFilter = `&& !(_id == '${filters?.currentId}')`;
-
+  currentId: string,
+): Promise<Product[] | Error> {
   try {
     const res = await client.fetch<Product[]>(
-      groq`*[_type=="product" && references(*[_type=='brand' && slug.current == $brand]._id) ${excludeCurrentFilter}] ${limitFilter} {...,'tags':tags[]->{title, slug}, 'brand':brand->{title, slug}, 'images':images[].asset->{url}}`,
-      { brand },
+      groq`*[_type=="product" && references(*[_type=='brand' && slug.current == $brand]._id) && !(_id == '$currentId')]
+            [0...5] 
+            {
+              ...,
+              'tags':tags[]->{title, slug},
+              'brand':brand->{title, slug},
+              'images':images[].asset->{url}
+            }`,
+      { brand, currentId },
     );
-    return [res, null] as const;
+    return res as Product[];
   } catch (error) {
-    return [null, error] as const;
+    return error as Error;
   }
 }
 
-export async function getCategories() {
+export async function getCategories(): Promise<Category[] | Error> {
   try {
     const res = await client.fetch<Category[]>(
       groq`*[_type=="category"]{title, slug}`,
     );
-    return [res, null] as const;
+    return res as Category[];
   } catch (error) {
-    return [null, error] as const;
+    return error as Error;
   }
 }
 
-export async function getBrands() {
+export async function getBrands(): Promise<Brand[] | Error> {
   try {
     const res = await client.fetch<Brand[]>(
       groq`*[_type=="brand"]{title, slug}`,
     );
-    return [res, null] as const;
+    return res as Brand[];
   } catch (error) {
-    return [null, error] as const;
+    return error as Error;
   }
 }
 
 export async function getCollections(): Promise<Collection[] | Error> {
   try {
-    const res = await client.fetch<Collection[]>(groq`*[
-    _type=="collection"]
-  {...,
-    'recommendations':recommendations[]{..., product->{...,'tags':tags[]->{title, slug}, 'brand':brand->{title, slug}, 'images':images[].asset->{url}}},
-  }`);
+    const res = await client.fetch<Collection[]>(
+      groq`*[_type=="collection"]
+              {
+                ...,
+                'recommendations':recommendations[]
+                  {
+                    ...,
+                    product->
+                      {
+                      ...,
+                      'tags':tags[]->{title, slug},
+                      'brand':brand->{title, slug},
+                      'images':images[].asset->{url}
+                      }
+                  },
+              }`
+    );
 
     return res as Collection[];
   } catch (error) {
@@ -135,7 +151,7 @@ export async function placeOrder(
   items: CartProduct[],
   total: number,
   customer: { name: string; email: string },
-) {
+): Promise<Order | Error> {
   const today = new Date();
   const date = today.toISOString();
 
@@ -167,10 +183,10 @@ export async function placeOrder(
   };
 
   try {
-    const res = await client.create(order);
+    const res = await client.create<Order>(order);
     return res;
   } catch (error) {
     console.log({ error });
-    return error;
+    return error as Error;
   }
 }
