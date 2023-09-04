@@ -1,3 +1,4 @@
+import { Brand, Category } from "@/@types";
 import FilterList from "@/components/filterList";
 import Pagination from "@/components/pagination";
 import ProductList from "@/components/productList";
@@ -11,13 +12,29 @@ interface Props {
 
 const Page = async ({ searchParams }: Props) => {
   const { category, brand, page } = searchParams;
-  const [products, _] = await getProducts({
+  const products = await getProducts({
     category: category as string,
     brand: brand as string,
     pageIndex: page as string,
   });
-  const [categories, cErr] = await getCategories();
-  const [brands, bErr] = await getBrands();
+
+  const categories = await getCategories();
+  const brands = await getBrands();
+  console.log({categories, brands})
+
+  let categoriesData: Category[] = [];
+  let brandsData: Brand[] = [];
+
+  if (products instanceof Error) {
+    return new Error("Products not found");
+  }
+  if (!(categories instanceof Error)) {
+    categoriesData = categories;
+  }
+
+  if (!(brands instanceof Error)) {
+    brandsData = brands;
+  }
 
   return (
     <main className="flex flex-1 flex-col p-2 md:overflow-hidden md:p-4">
@@ -25,23 +42,19 @@ const Page = async ({ searchParams }: Props) => {
         <aside className="flex md:w-1/6 md:flex-col">
           <section className="flex-1 p-2 md:flex-none">
             <h2 className={cn("font-semibold")}>Categories</h2>
-            <FilterList list={categories} parameter="category" />
+            <FilterList list={categoriesData} parameter="category" />
           </section>
           <section className="flex-1 p-2 md:flex-none">
             <h2 className={cn("font-semibold")}>Brands</h2>
-            <FilterList list={brands} parameter="brand" />
+            <FilterList list={brandsData} parameter="brand" />
           </section>
         </aside>
         <section className={cn("flex flex-1 flex-col")}>
-          <ProductList
-            products={products?.products!}
-            category={category as string}
-            brand={brand as string}
-          />
+          <ProductList products={products.products} />
         </section>
       </div>
       <Pagination
-        count={Math.ceil(products?.totalPageCount!)}
+        count={Math.ceil(products.totalPageCount)}
         currentPage={(page as string) || "1"}
       />
     </main>

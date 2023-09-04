@@ -13,7 +13,7 @@ import {
 
 interface Props {
   parameter: "category" | "brand";
-  list: Category[] | Brand[] | null;
+  list: Category[] | Brand[];
 }
 const FilterList = ({ parameter, list }: Props) => {
   const router = useRouter();
@@ -35,7 +35,6 @@ const FilterList = ({ parameter, list }: Props) => {
   );
 
   const value = searchParams.get(parameter) || "all";
-  const current = list?.find((item) => item.slug.current === value);
 
   const options = list
     ? [
@@ -47,7 +46,16 @@ const FilterList = ({ parameter, list }: Props) => {
         },
         ...list,
       ]
-    : [];
+    : [
+        {
+          title: "All",
+          slug: {
+            current: "all",
+          },
+        },
+      ];
+
+  const current = options.find((item) => item.slug.current === value);
 
   return (
     <Select

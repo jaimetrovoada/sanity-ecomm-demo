@@ -18,7 +18,11 @@ const Page = async ({ params }: Props) => {
   const product = await getProductBySlug(item);
 
   if (product instanceof Error) {
-    notFound();
+    return product
+  }
+
+  if (!product) {
+    return notFound();
   }
 
   return (
@@ -27,8 +31,8 @@ const Page = async ({ params }: Props) => {
         <aside className="w-full md:w-1/3">
           <AspectRatio className="bg-muted">
             <Image
-              src={product?.images[0].url!}
-              alt={`Image of ${product?.title}`}
+              src={product.images[0].url}
+              alt={`Image of ${product.title}`}
               fill
               className="rounded-md object-cover"
             />
@@ -37,7 +41,7 @@ const Page = async ({ params }: Props) => {
         <section className="flex w-full max-w-prose flex-col">
           <div>
             <h2 className="tracking-widest text-gray-500">
-              {product?.brand.title}
+              {product.brand.title}
             </h2>
           </div>
           <h1 className="text-3xl font-semibold">{product?.title}</h1>
@@ -52,13 +56,13 @@ const Page = async ({ params }: Props) => {
           <div className="mt-auto flex flex-row items-center justify-between border-t-2 border-gray-100 py-2">
             <span className="text-2xl font-medium">${product?.price}</span>
             <div className="flex flex-row gap-2">
-              <WishlistButton product={product!} />
-              <CartButton product={product!} />
+              <WishlistButton product={product} />
+              <CartButton product={product} />
             </div>
           </div>
         </section>
       </div>
-      <RelatedProductsList product={product!} />
+      <RelatedProductsList product={product} />
     </main>
   );
 };

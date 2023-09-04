@@ -1,7 +1,7 @@
 import { Product } from "@/@types";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
-import { getProductsByBrand } from "@/lib/queries";
+import { getSameBrandProducts } from "@/lib/queries";
 import { Suspense } from "react";
 import ProductCard, { ProductCardSkeleton } from "./productCard";
 
@@ -10,13 +10,14 @@ interface Props {
 }
 
 const RelatedProductsList = async ({ product }: Props) => {
-  const [related, rErr] = await getProductsByBrand(
-    product?.brand.slug.current!,
-    {
-      limit: 5,
-      currentId: product?._id,
-    },
+  const related = await getSameBrandProducts(
+    product.brand.slug.current!,
+    product._id,
   );
+
+  if (related instanceof Error) {
+    return 
+  }
 
   return (
     <section>
@@ -45,11 +46,15 @@ const RelatedProductsList = async ({ product }: Props) => {
             </>
           }
         >
-          {related?.map((product) => (
-            <li key={product._id} className="snap-start">
-              <ProductCard product={product} />
-            </li>
-          ))}
+          {related ? (
+            related.map((product) => (
+              <li key={product._id} className="snap-start">
+                <ProductCard product={product} />
+              </li>
+            ))
+          ) : (
+            <p>Couldnt find anything</p>
+          )}
         </Suspense>
       </ul>
     </section>

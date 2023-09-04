@@ -5,7 +5,7 @@ import React from "react";
 
 export default async function Page() {
   const collections = await getCollections();
-  console.log({ collections });
+
   if (collections instanceof Error) {
     return (
       <main className="space-y-4 p-2 md:p-4">
@@ -14,6 +14,9 @@ export default async function Page() {
     );
   }
 
+  if (!collections.length) {
+    redirect("/store/products");
+  }
   return (
     <main className="space-y-4 p-2 md:p-4">
       {collections.map((collection) => (

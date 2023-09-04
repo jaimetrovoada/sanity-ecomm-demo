@@ -6,6 +6,7 @@ import { cn } from "@/lib/utils";
 import { getBrands, getCategories } from "@/lib/queries";
 import CartProvider from "@/components/cartProvider";
 import { Toaster } from "@/components/ui/toaster";
+import { Brand, Category } from "@/@types";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -58,15 +59,26 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const [categories, cErr] = await getCategories();
-  const [brands, bErr] = await getBrands();
+  const categories  = await getCategories();
+  const brands = await getBrands();
+
+  let categoriesData: Category[] = [];
+  let brandsData: Brand[] = [];
+
+  if (!(categories instanceof Error)) {
+    categoriesData = categories;
+  }
+
+  if (!(brands instanceof Error)) {
+    brandsData = brands;
+  }
   return (
     <html lang="en">
       <body
         className={cn("flex h-dynamic flex-col bg-gray-100", inter.className)}
       >
         <CartProvider>
-          <Header categories={categories} brands={brands} />
+          <Header categories={categoriesData} brands={brandsData} />
           {children}
         </CartProvider>
         <Toaster />
