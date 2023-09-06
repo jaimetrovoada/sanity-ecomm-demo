@@ -13,18 +13,23 @@ import { CartActions, CartProduct, useCart } from "@/lib/cartReducer";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { MinusIcon, PlusIcon, TrashIcon } from "lucide-react";
+import { Loader, Loader2, MinusIcon, PlusIcon, TrashIcon } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
 import { placeOrder } from "@/lib/queries";
+import { useState } from "react";
 
 const formSchema = z.object({
   name: z.string().min(2, { message: "Name is too short" }),
   email: z.string().email(),
+  address: z.string().min(2, { message: "Address is too short" }),
+  city: z.string().min(2, { message: "City is too short" }),
+  zipcode: z.string().min(2, { message: "Zip code is too short" }),
 });
 
 const Page = () => {
   const { state, dispatch } = useCart();
   const { toast } = useToast();
+  const [isLoading, setIsLoading] = useState(false);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -34,7 +39,10 @@ const Page = () => {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
     console.log("submit", { values });
+    setIsLoading(true);
     const res = await placeOrder(state.cartItems, state.totalPrice, values);
+    setIsLoading(false);
+
     if (res instanceof Error) {
       return toast({
         variant: "destructive",
@@ -42,7 +50,6 @@ const Page = () => {
         description: "There was a problem with your request.",
       });
     }
-
     return toast({
       title: "Success!",
       description: "Your order has been placed!",
@@ -165,6 +172,50 @@ const Page = () => {
                 </FormItem>
               )}
             />
+            <div className="flex flex-row items-center gap-2">
+              <FormField
+                control={form.control}
+                name="city"
+                render={({ field }) => (
+                  <FormItem className="grow">
+                    <FormLabel>City</FormLabel>
+                    <FormControl>
+                      <Input placeholder="San Francisco" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="zipcode"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Zip Code</FormLabel>
+                    <FormControl>
+                      <Input placeholder="94111" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+            <FormField
+              control={form.control}
+              name="address"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Address</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="123 Main St, San Francisco, CA"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
             <div className="mt-auto flex flex-row justify-between font-semibold">
               <span>Total:</span>
               <span>
@@ -174,7 +225,19 @@ const Page = () => {
                 })}
               </span>
             </div>
-            <Button type="submit">Place Order</Button>
+            <Button
+              type="submit"
+              disabled={isLoading || !form.formState.isValid}
+            >
+              {isLoading ? (
+                <>
+                  <Loader2 size={16} className="mr-2 animate-spin" />{" "}
+                  Processing...
+                </>
+              ) : (
+                "Place Order"
+              )}
+            </Button>
           </form>
         </Form>
       </section>
