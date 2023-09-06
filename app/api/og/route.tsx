@@ -136,7 +136,7 @@ export async function GET(req: NextRequest) {
           >
             <img
               style={{ objectFit: "cover" }}
-              src={res.images[0].url}
+              src={res.images[0].asset.url}
               width="256"
               height="256"
               alt="product image"
