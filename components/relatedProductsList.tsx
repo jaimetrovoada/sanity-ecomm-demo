@@ -20,12 +20,12 @@ const RelatedProductsList = async ({ product }: Props) => {
 
   return (
     <section>
-      <h3 className="mb-4 inline-flex items-center gap-1 text-2xl font-semibold hover:underline">
+      <h2 className="mb-4 inline-flex items-center gap-1 text-2xl font-semibold hover:underline">
         <Link href={`/store/products?brand=${product?.brand.slug.current}`}>
           More From {product?.brand.title}
         </Link>
         <ArrowRight className="h-4 w-4" />
-      </h3>
+      </h2>
       <ul className="mx-auto grid max-w-screen-lg snap-x snap-mandatory auto-cols-max grid-flow-col gap-4 overflow-auto scroll-smooth md:auto-cols-[20%]">
         {related ? (
           related.map((product) => (
