@@ -28,9 +28,12 @@ const Pagination = ({ count, currentPage }: Props) => {
     [searchParams],
   );
 
+  const isFirstPage = currentPage === "1";
+  const isLastPage = currentPage === count.toString();
+
   const prevLink = (function () {
-    if (currentPage === "1") {
-      return "";
+    if (isFirstPage) {
+      return pathname;
     }
     if (currentPage === "2") {
       return pathname;
@@ -43,8 +46,8 @@ const Pagination = ({ count, currentPage }: Props) => {
   })();
 
   const nextLink = (function () {
-    if (currentPage === count.toString()) {
-      return "";
+    if (isLastPage) {
+      return pathname + "?" + createQueryString("page", currentPage || "1");
     }
     return (
       pathname +
@@ -59,7 +62,9 @@ const Pagination = ({ count, currentPage }: Props) => {
         variant="outline"
         size="icon"
         className="bg-transparent"
-        disabled={currentPage === "1"}
+        disabled={isFirstPage}
+        aria-label="Previous page"
+        aria-disabled={isFirstPage}
         asChild
       >
         <Link href={prevLink}>
@@ -73,7 +78,9 @@ const Pagination = ({ count, currentPage }: Props) => {
         variant="outline"
         size="icon"
         className="bg-transparent"
-        disabled={currentPage === count.toString()}
+        disabled={isLastPage}
+        aria-label="Next page"
+        aria-disabled={isLastPage}
         asChild
       >
         <Link href={nextLink}>
