@@ -37,7 +37,7 @@ export async function getProducts(filters: {
         ...,
         'tags': tags[]->{title, slug},
         'brand': brand->{title, slug},
-        'images': images[].asset->{url}
+        'images':images[]{...,asset->}
       },
     'totalPageCount': count(*[_type=='product' ${brandFilter} ${categoryFilter}]) / $itemsPerPage,
     'currentPage': $pageIndex + 1
@@ -64,7 +64,7 @@ export async function getProductBySlug(slug: string): Promise<Product | Error> {
               ...,
               'tags':tags[]->{title, slug},
               'brand':brand->{title, slug},
-              'images':images[].asset->{url}
+              'images':images[]{...,asset->}
             }`,
       { slug },
     );
@@ -88,7 +88,7 @@ export async function getSameBrandProducts(
               ...,
               'tags':tags[]->{title, slug},
               'brand':brand->{title, slug},
-              'images':images[].asset->{url}
+              'images':images[]{...,asset->}
             }`,
       { brand, currentId },
     );
@@ -134,7 +134,7 @@ export async function getCollections(): Promise<Collection[] | Error> {
                       ...,
                       'tags':tags[]->{title, slug},
                       'brand':brand->{title, slug},
-                      'images':images[].asset->{url}
+                      'images':images[]{...,asset->}
                       }
                   },
               }`,
