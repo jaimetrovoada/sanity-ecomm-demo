@@ -79,6 +79,9 @@ export interface Order {
   customer: {
     name: string;
     email: string;
+    address: string;
+    city: string;
+    zipcode: string;
   };
   total: number;
   items: Array<{
@@ -113,61 +116,61 @@ export type Collection = SanityDocument & {
 };
 
 export interface Image {
-    _type: string;
-    _key: string;
-    asset: Asset;
+  _type: string;
+  _key: string;
+  asset: Asset;
 }
 
 interface Asset {
-    extension: string;
-    _type: string;
-    uploadId: string;
-    sha1hash: string;
-    _updatedAt: string;
-    metadata: Metadata;
-    path: string;
-    size: number;
-    _createdAt: string;
-    _rev: string;
-    mimeType: string;
-    url: string;
-    assetId: string;
-    _id: string;
-    originalFilename: string;
+  extension: string;
+  _type: string;
+  uploadId: string;
+  sha1hash: string;
+  _updatedAt: string;
+  metadata: Metadata;
+  path: string;
+  size: number;
+  _createdAt: string;
+  _rev: string;
+  mimeType: string;
+  url: string;
+  assetId: string;
+  _id: string;
+  originalFilename: string;
 }
 
 interface Metadata {
-    isOpaque: boolean;
-    blurHash: string;
-    _type: string;
-    palette: Palette;
-    hasAlpha: boolean;
-    lqip: string;
-    dimensions: Dimensions;
+  isOpaque: boolean;
+  blurHash: string;
+  _type: string;
+  palette: Palette;
+  hasAlpha: boolean;
+  lqip: string;
+  dimensions: Dimensions;
 }
 
 interface Palette {
-    lightMuted: PaletteSwatch;
-    vibrant: PaletteSwatch;
-    dominant: PaletteSwatch;
-    _type: string;
-    darkMuted: PaletteSwatch;
-    muted: PaletteSwatch;
-    lightVibrant: PaletteSwatch;
-    darkVibrant: PaletteSwatch;
+  lightMuted: PaletteSwatch;
+  vibrant: PaletteSwatch;
+  dominant: PaletteSwatch;
+  _type: string;
+  darkMuted: PaletteSwatch;
+  muted: PaletteSwatch;
+  lightVibrant: PaletteSwatch;
+  darkVibrant: PaletteSwatch;
 }
 
 interface PaletteSwatch {
-    _type: string;
-    foreground: string;
-    title: string;
-    population: number;
-    background: string;
+  _type: string;
+  foreground: string;
+  title: string;
+  population: number;
+  background: string;
 }
 
 interface Dimensions {
-    _type: string;
-    width: number;
-    aspectRatio: number;
-    height: number;
+  _type: string;
+  width: number;
+  aspectRatio: number;
+  height: number;
 }

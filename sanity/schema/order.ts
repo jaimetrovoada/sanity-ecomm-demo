@@ -34,6 +34,21 @@ export default defineType({
           title: "Email",
           type: "string",
         }),
+        defineField({
+          name: "address",
+          title: "Address",
+          type: "string",
+        }),
+        defineField({
+          name: "city",
+          title: "City",
+          type: "string",
+        }),
+        defineField({
+          name: "zipcode",
+          title: "Zipcode",
+          type: "string",
+        }),
       ],
     }),
     defineField({
