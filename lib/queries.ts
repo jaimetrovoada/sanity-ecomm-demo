@@ -8,7 +8,6 @@ import {
 } from "@/@types";
 import { client } from "@/sanity/lib/client";
 import { groq } from "next-sanity";
-import { nanoid } from "nanoid/async";
 import { CartProduct } from "./cartReducer";
 
 export async function getProducts(filters: {
@@ -152,39 +151,19 @@ export async function placeOrder(
   total: number,
   customer: { name: string; email: string },
 ): Promise<Order | Error> {
-  const today = new Date();
-  const date = today.toISOString();
-
-  const id = await nanoid(8);
-  const key = await nanoid(12);
-
-  const order: Order = {
-    _type: "order",
-    title: `${customer.name} - order_${id}`,
-    slug: {
-      _type: "slug",
-      current: `order_${id}`,
-    },
-    total: total,
-    items: items.map((item) => {
-      return {
-        title: item.name,
-        quantity: item.quantity,
-        _key: key,
-        product: {
-          _type: "reference",
-          _ref: item.id,
-        },
-      };
-    }),
-    customer: customer,
-    status: "pending",
-    date: date,
-  };
-
   try {
-    const res = await client.create<Order>(order);
-    return res;
+    const res = await fetch("/api/orders", {
+      method: "POST",
+      body: JSON.stringify({
+        items,
+        total,
+        customer,
+      }),
+    });
+
+    const body = await res.json();
+    console.log({ body });
+    return body as Order;
   } catch (error) {
     console.log({ error });
     return error as Error;
