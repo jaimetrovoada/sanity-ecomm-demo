@@ -13,7 +13,7 @@ import {
 
 interface Props {
   parameter: "category" | "brand";
-  list: Category[] | Brand[];
+  list: Category[] | Brand[] | null;
 }
 const FilterList = ({ parameter, list }: Props) => {
   const router = useRouter();
@@ -66,7 +66,7 @@ const FilterList = ({ parameter, list }: Props) => {
         );
       }}
     >
-      <SelectTrigger className="capitalize">
+      <SelectTrigger className="capitalize" aria-label={`Select ${parameter}`}>
         <SelectValue
           className="capitalize"
           placeholder={parameter}
