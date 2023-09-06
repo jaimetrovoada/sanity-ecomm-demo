@@ -4,6 +4,7 @@ import Image from "next/image";
 import { AspectRatio } from "./ui/aspect-ratio";
 import Link from "next/link";
 import { Skeleton } from "./ui/skeleton";
+import ProductImage from "./productImage";
 
 interface Prop {
   product: Product;
@@ -12,14 +13,7 @@ const ProductCard = ({ product }: Prop) => {
   return (
     <Card className="group flex flex-col overflow-hidden border-0 bg-transparent shadow-none">
       <div className="w-full overflow-hidden rounded-lg">
-        <AspectRatio className="bg-muted">
-          <Image
-            src={product.images[0].url}
-            alt={`Image of ${product.title}`}
-            fill
-            className="object-cover transition duration-500 group-hover:scale-110"
-          />
-        </AspectRatio>
+        <ProductImage image={product.images[0]} alt={product.title} />
       </div>
       <CardHeader className="flex flex-col justify-between p-2 md:flex-row md:items-center">
         <CardTitle className="">

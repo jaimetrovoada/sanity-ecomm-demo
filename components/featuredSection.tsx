@@ -2,6 +2,7 @@ import { Featured, Product } from "@/@types";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
 import Image from "next/image";
 import Link from "next/link";
+import ProductImage from "./productImage";
 
 interface Props {
   name: string;
@@ -42,14 +43,10 @@ const FeaturedSection = ({ name, description, products }: Props) => {
                 href={`/store/products/${products[0].product?.slug.current}`}
                 className="group block"
               >
-                <AspectRatio className="bg-muted">
-                  <Image
-                    src={products[0].product?.images[0].url!}
-                    alt=""
-                    className="aspect-square w-full rounded object-cover"
-                    fill
-                  />
-                </AspectRatio>
+                <ProductImage
+                  image={products[0].product?.images[0]!}
+                  alt={products[0].product?.title!}
+                />
 
                 <div className="mt-3">
                   <h3 className="font-medium text-gray-900 group-hover:underline group-hover:underline-offset-4">
@@ -71,14 +68,10 @@ const FeaturedSection = ({ name, description, products }: Props) => {
                 href={`/store/products/${products[1].product?.slug.current}`}
                 className="group block"
               >
-                <AspectRatio className="bg-muted">
-                  <Image
-                    src={products[1].product?.images[0].url!}
-                    alt=""
-                    className="aspect-square w-full rounded object-cover"
-                    fill
-                  />
-                </AspectRatio>
+                <ProductImage
+                  image={products[1].product?.images[0]!}
+                  alt={products[0].product?.title!}
+                />
 
                 <div className="mt-3">
                   <h3 className="font-medium text-gray-900 group-hover:underline group-hover:underline-offset-4">
