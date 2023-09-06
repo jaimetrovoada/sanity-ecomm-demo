@@ -42,7 +42,12 @@ const WishlistButton = ({ product }: Props) => {
   };
 
   return (
-    <Button variant="outline" size="icon" onClick={addToWishlist}>
+    <Button
+      variant="outline"
+      size="icon"
+      aria-label="Add to wishlist"
+      onClick={addToWishlist}
+    >
       <HeartIcon
         size={24}
         className={cn("stroke-red-400", {

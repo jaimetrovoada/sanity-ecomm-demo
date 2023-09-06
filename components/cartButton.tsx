@@ -55,6 +55,7 @@ const CartButton = ({ product }: Props) => {
       variant="outline"
       size="icon"
       className="bg-yellow-400"
+      aria-label="Add to cart"
       onClick={addToCart}
     >
       <ShoppingCartIcon size={24} className="" />
