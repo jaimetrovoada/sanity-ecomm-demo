@@ -1,19 +1,13 @@
 import { Product } from "@/@types";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
-import { getSameBrandProducts } from "@/lib/queries";
 import ProductCard, { ProductCardSkeleton } from "./productCard";
 
 interface Props {
-  product: Product;
+  related: Product[];
 }
 
-const RelatedProductsList = async ({ product }: Props) => {
-  const related = await getSameBrandProducts(
-    product.brand.slug.current!,
-    product._id,
-  );
-
+const RelatedProductsList = async ({ related }: Props) => {
   if (related instanceof Error) {
     return;
   }
@@ -21,8 +15,8 @@ const RelatedProductsList = async ({ product }: Props) => {
   return (
     <section>
       <h2 className="mb-4 inline-flex items-center gap-1 text-2xl font-semibold hover:underline">
-        <Link href={`/store/products?brand=${product?.brand.slug.current}`}>
-          More From {product?.brand.title}
+        <Link href={`/store/products?brand=${related[0].brand.slug}`}>
+          More From {related[0].brand.title}
         </Link>
         <ArrowRight className="h-4 w-4" />
       </h2>

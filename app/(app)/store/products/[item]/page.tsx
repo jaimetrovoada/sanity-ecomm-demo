@@ -1,5 +1,5 @@
 import { AspectRatio } from "@/components/ui/aspect-ratio";
-import { getProductBySlug } from "@/lib/queries";
+import { getProductBySlug, getSameBrandProducts } from "@/lib/queries";
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import CartButton from "@/components/cartButton";
@@ -18,6 +18,8 @@ const Page = async ({ params }: Props) => {
   const { item } = params;
   const product = await getProductBySlug(item);
 
+  const related = await getSameBrandProducts(item);
+
   if (product instanceof Error) {
     return product;
   }
@@ -30,7 +32,11 @@ const Page = async ({ params }: Props) => {
     <main className="container flex h-full max-h-full flex-col gap-12 p-2 md:p-4">
       <div className="flex flex-col gap-4 rounded-md bg-white p-2 md:flex-row md:justify-evenly">
         <aside className="w-full md:w-1/3">
-          <ProductImage image={product.images[0]} alt={product.title} />
+          <ProductImage
+            image={product.images[0]}
+            alt={product.title}
+            priority
+          />
         </aside>
         <section className="flex w-full max-w-prose flex-col">
           <div>
@@ -56,7 +62,11 @@ const Page = async ({ params }: Props) => {
           </div>
         </section>
       </div>
-      <RelatedProductsList product={product} />
+      {related instanceof Error || related.length === 0 ? (
+        <p>Couldnt find any related products</p>
+      ) : (
+        <RelatedProductsList related={related} />
+      )}
     </main>
   );
 };
