@@ -1,5 +1,5 @@
 import { AspectRatio } from "@/components/ui/aspect-ratio";
-import { getProductBySlug, getSameBrandProducts } from "@/lib/queries";
+import { getProductBySlug } from "@/lib/queries";
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import CartButton from "@/components/cartButton";
@@ -7,6 +7,7 @@ import WishlistButton from "@/components/wishlistButton";
 import RelatedProductsList from "@/components/relatedProductsList";
 import type { Metadata } from "next";
 import ProductImage from "@/components/productImage";
+import { Suspense } from "react";
 
 interface Props {
   params: {
@@ -17,8 +18,6 @@ interface Props {
 const Page = async ({ params }: Props) => {
   const { item } = params;
   const product = await getProductBySlug(item);
-
-  const related = await getSameBrandProducts(item);
 
   if (product instanceof Error) {
     return product;
@@ -62,11 +61,9 @@ const Page = async ({ params }: Props) => {
           </div>
         </section>
       </div>
-      {related instanceof Error || related.length === 0 ? (
-        <p>Couldnt find any related products</p>
-      ) : (
-        <RelatedProductsList related={related} />
-      )}
+      <Suspense fallback={<RelatedProductsList.Skeleton />}>
+        <RelatedProductsList slug={item} />
+      </Suspense>
     </main>
   );
 };
