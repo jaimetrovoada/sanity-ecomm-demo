@@ -76,12 +76,11 @@ export async function getProductBySlug(slug: string): Promise<Product | Error> {
 }
 
 export async function getSameBrandProducts(
-  brand: string,
-  currentId: string,
+  slug: string,
 ): Promise<Product[] | Error> {
   try {
     const res = await client.fetch<Product[]>(
-      groq`*[_type=="product" && references(*[_type=='brand' && slug.current == $brand]._id) && !(_id == '$currentId')]
+      groq`*[_type=="product" && references(*[_type=='product' && slug.current == $slug].brand._ref) && !(slug.current == $slug)]
             [0...5] 
             {
               ...,
@@ -89,10 +88,11 @@ export async function getSameBrandProducts(
               'brand':brand->{title, slug},
               'images':images[]{...,asset->}
             }`,
-      { brand, currentId },
+      { slug },
     );
-    return res as Product[];
+    return res;
   } catch (error) {
+    console.log({error})
     return error as Error;
   }
 }
