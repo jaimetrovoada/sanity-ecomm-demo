@@ -12,8 +12,9 @@ import { Image as TImage } from "@/@types";
 type Props = {
   image: TImage;
   alt: string;
+  priority?: boolean;
 };
-const ProductImage = ({ image, alt }: Props) => {
+const ProductImage = ({ image, alt, priority = false }: Props) => {
   const imageProps = useNextSanityImage(client, image);
 
   return (
@@ -27,6 +28,7 @@ const ProductImage = ({ image, alt }: Props) => {
         placeholder="blur"
         className="rounded-md object-cover object-center"
         blurDataURL={image.asset.metadata.lqip}
+        priority={priority}
       />
     </AspectRatio>
   );
