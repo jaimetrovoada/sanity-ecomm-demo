@@ -44,16 +44,17 @@ const WishlistButton = ({ product }: Props) => {
   return (
     <Button
       variant="outline"
-      size="icon"
+      className="inline-flex items-center gap-2"
       aria-label="Add to wishlist"
       onClick={addToWishlist}
     >
       <HeartIcon
-        size={24}
+        size={16}
         className={cn("stroke-red-400", {
           "fill-red-400": onWishlist > -1,
         })}
       />
+      Add to wishlist
     </Button>
   );
 };

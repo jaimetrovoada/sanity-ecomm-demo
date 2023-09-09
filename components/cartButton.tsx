@@ -53,12 +53,12 @@ const CartButton = ({ product }: Props) => {
   return (
     <Button
       variant="outline"
-      size="icon"
-      className="bg-yellow-400"
+      className="bg-yellow-400 inline-flex items-center gap-2 hover:bg-yellow-400/80"
       aria-label="Add to cart"
       onClick={addToCart}
     >
-      <ShoppingCartIcon size={24} className="" />
+      <ShoppingCartIcon size={16} />
+      Add to cart
     </Button>
   );
 };
