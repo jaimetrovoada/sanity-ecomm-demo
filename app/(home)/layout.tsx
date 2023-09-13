@@ -55,9 +55,12 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="en" className="h-full">
       <body
-        className={cn("flex h-dynamic flex-col bg-gray-200", inter.className)}
+        className={cn(
+          "flex min-h-screen flex-col bg-gray-200",
+          inter.className,
+        )}
       >
         {children}
       </body>
