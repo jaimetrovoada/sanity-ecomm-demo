@@ -5,7 +5,7 @@ import { ProductCardSkeleton } from "@/components/productCard";
 
 const Loading = () => {
   return (
-    <main className="container flex h-full max-h-full flex-col gap-12 p-2 md:p-4">
+    <main className="container flex h-full flex-col gap-12 p-2 md:p-4">
       <div className="flex flex-col gap-4 rounded-md bg-white p-2 md:flex-row md:justify-evenly">
         <aside className="aspect-square h-full w-full md:w-1/3">
           <Skeleton className="h-full w-full" />
