@@ -8,6 +8,7 @@ import RelatedProductsList from "@/components/relatedProductsList";
 import type { Metadata } from "next";
 import ProductImage from "@/components/productImage";
 import { Suspense } from "react";
+import ProductImageSlide from "@/components/productImageSlide";
 
 interface Props {
   params: {
@@ -30,12 +31,8 @@ const Page = async ({ params }: Props) => {
   return (
     <main className="container flex h-full flex-col gap-12 p-2 md:p-4">
       <div className="flex flex-col gap-4 rounded-md bg-white p-2 md:flex-row md:justify-evenly">
-        <aside className="w-full md:w-1/3">
-          <ProductImage
-            image={product.images[0]}
-            alt={product.title}
-            priority
-          />
+        <aside className="flex w-full flex-col gap-1 md:w-1/3">
+          <ProductImageSlide images={product.images} title={product.title} />
         </aside>
         <section className="flex w-full max-w-prose flex-col">
           <div>
