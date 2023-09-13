@@ -36,26 +36,24 @@ const Page = async ({ searchParams }: Props) => {
   }
 
   return (
-    <main className="flex flex-1 flex-col p-2 md:overflow-hidden md:p-4">
-      <div className={cn("flex h-full flex-col gap-4 md:flex-row")}>
-        <aside className="flex md:w-1/6 md:flex-col">
-          <section className="flex-1 p-2 md:flex-none">
-            <h2 className={cn("font-semibold")}>Categories</h2>
-            <FilterList list={categoriesData} parameter="category" />
-          </section>
-          <section className="flex-1 p-2 md:flex-none">
-            <h2 className={cn("font-semibold")}>Brands</h2>
-            <FilterList list={brandsData} parameter="brand" />
-          </section>
-        </aside>
-        <section className={cn("flex flex-1 flex-col")}>
-          <ProductList products={products.products} />
+    <main className="flex flex-1 flex-col p-2 lg:flex-row lg:p-4">
+      <aside className="flex lg:sticky lg:top-0 lg:w-1/6 lg:flex-col lg:self-start">
+        <section className="flex-1 p-2 lg:flex-none">
+          <h2 className={cn("font-semibold")}>Categories</h2>
+          <FilterList list={categoriesData} parameter="category" />
         </section>
-      </div>
-      <Pagination
-        count={Math.ceil(products.totalPageCount)}
-        currentPage={(page as string) || "1"}
-      />
+        <section className="flex-1 p-2 lg:flex-none">
+          <h2 className={cn("font-semibold")}>Brands</h2>
+          <FilterList list={brandsData} parameter="brand" />
+        </section>
+      </aside>
+      <section className={cn("flex flex-1 flex-col")}>
+        <ProductList products={products.products} />
+        <Pagination
+          count={Math.ceil(products.totalPageCount)}
+          currentPage={(page as string) || "1"}
+        />
+      </section>
     </main>
   );
 };
