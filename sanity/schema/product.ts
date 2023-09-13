@@ -53,4 +53,16 @@ export default defineType({
       ],
     }),
   ],
+  preview: {
+    select: {
+      title: "title",
+      brand: "brand.title",
+    },
+    prepare({ title, brand }) {
+      return {
+        title: title,
+        subtitle: brand,
+      };
+    },
+  },
 });
