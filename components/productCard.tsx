@@ -6,6 +6,7 @@ import Link from "next/link";
 import { Skeleton } from "./ui/skeleton";
 import ProductImage from "./productImage";
 import { cn } from "@/lib/utils";
+import { Badge } from "./ui/badge";
 
 interface Prop {
   product: Product;
@@ -26,6 +27,9 @@ const ProductCard = ({ product, useListStyle = false }: Prop) => {
         <ProductImage image={product.images[0]} alt={product.title} />
       </div>
       <CardHeader className="flex flex-col gap-1 p-2">
+        <Badge variant="secondary" className="w-fit text-xs text-gray-600">
+          {product.tags[0].title}
+        </Badge>
         <CardTitle className="">
           <Link
             href={`/store/products/${product.slug.current}`}
@@ -34,7 +38,12 @@ const ProductCard = ({ product, useListStyle = false }: Prop) => {
             {product.brand.title} {product.title}
           </Link>
         </CardTitle>
-        <p className="text-sm text-gray-500">{product.tags[0].title}</p>
+        <p className="text-sm text-gray-600">
+          {product.price.toLocaleString("en-Us", {
+            style: "currency",
+            currency: "USD",
+          })}
+        </p>
       </CardHeader>
     </Card>
   );
@@ -53,6 +62,7 @@ const PSkeleton = ({ useListStyle = false }: { useListStyle?: boolean }) => {
         })}
       />
       <CardHeader className="flex w-full flex-col gap-4 p-2">
+        <Skeleton className="h-3 w-1/4" />
         <Skeleton className="h-4 w-2/3" />
         <Skeleton className="h-3 w-1/4" />
       </CardHeader>
