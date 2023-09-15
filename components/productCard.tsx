@@ -40,16 +40,24 @@ const ProductCard = ({ product, useListStyle = false }: Prop) => {
   );
 };
 
-export default ProductCard;
-
-export const ProductCardSkeleton = () => {
+const PSkeleton = ({ useListStyle = false }: { useListStyle?: boolean }) => {
   return (
-    <Card className="group flex flex-col overflow-hidden border-0 bg-transparent shadow-none">
-      <Skeleton className="h-52 w-full overflow-hidden rounded-lg" />
-      <CardHeader className="flex flex-col justify-between p-2 md:flex-row md:items-center">
+    <Card
+      className={cn("group flex flex-col overflow-hidden", {
+        "flex-row md:flex-col": useListStyle,
+      })}
+    >
+      <Skeleton
+        className={cn("aspect-square h-auto w-full", {
+          "w-1/4 md:w-full": useListStyle,
+        })}
+      />
+      <CardHeader className="flex w-full flex-col gap-4 p-2">
         <Skeleton className="h-4 w-2/3" />
-        <Skeleton className="h-4 w-4" />
+        <Skeleton className="h-3 w-1/4" />
       </CardHeader>
     </Card>
   );
 };
+ProductCard.Skeleton = PSkeleton;
+export default ProductCard;
