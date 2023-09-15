@@ -1,7 +1,7 @@
 import { Skeleton } from "@/components/ui/skeleton";
 import { HeartIcon, ShoppingCartIcon, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { ProductCardSkeleton } from "@/components/productCard";
+import ProductCard from "@/components/productCard";
 
 const Loading = () => {
   return (
@@ -40,16 +40,16 @@ const Loading = () => {
         </h3>
         <ul className="mx-auto grid max-w-screen-lg snap-x snap-mandatory auto-cols-[45%] grid-flow-col gap-4 overflow-auto scroll-smooth md:auto-cols-[20%]">
           <li>
-            <ProductCardSkeleton />
+            <ProductCard.Skeleton />
           </li>
           <li>
-            <ProductCardSkeleton />
+            <ProductCard.Skeleton />
           </li>
           <li>
-            <ProductCardSkeleton />
+            <ProductCard.Skeleton />
           </li>
           <li>
-            <ProductCardSkeleton />
+            <ProductCard.Skeleton />
           </li>
         </ul>
       </section>

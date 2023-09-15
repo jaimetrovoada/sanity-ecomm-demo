@@ -1,7 +1,7 @@
 import { Product } from "@/@types";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
-import ProductCard, { ProductCardSkeleton } from "./productCard";
+import ProductCard from "./productCard";
 import { getSameBrandProducts } from "@/lib/queries";
 import ScrollableArea from "./scrollableArea";
 
@@ -47,16 +47,16 @@ const Skeleton = () => {
       </h3>
       <ul className="mx-auto grid max-w-screen-lg snap-x snap-mandatory auto-cols-[45%] grid-flow-col gap-4 overflow-auto scroll-smooth md:auto-cols-[20%]">
         <li>
-          <ProductCardSkeleton />
+          <ProductCard.Skeleton />
         </li>
         <li>
-          <ProductCardSkeleton />
+          <ProductCard.Skeleton />
         </li>
         <li>
-          <ProductCardSkeleton />
+          <ProductCard.Skeleton />
         </li>
         <li>
-          <ProductCardSkeleton />
+          <ProductCard.Skeleton />
         </li>
       </ul>
     </section>
