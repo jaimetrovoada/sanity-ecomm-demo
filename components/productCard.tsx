@@ -5,18 +5,27 @@ import { AspectRatio } from "./ui/aspect-ratio";
 import Link from "next/link";
 import { Skeleton } from "./ui/skeleton";
 import ProductImage from "./productImage";
+import { cn } from "@/lib/utils";
 
 interface Prop {
   product: Product;
+  useListStyle?: boolean;
 }
-const ProductCard = ({ product }: Prop) => {
+const ProductCard = ({ product, useListStyle = false }: Prop) => {
   return (
-    <Card className="group flex flex-col overflow-hidden">
-      <div className="w-full">
+    <Card
+      className={cn("group flex flex-col overflow-hidden", {
+        "flex-row md:flex-col": useListStyle,
+      })}
+    >
+      <div
+        className={cn("w-full", {
+          "w-1/4 md:w-full": useListStyle,
+        })}
+      >
         <ProductImage image={product.images[0]} alt={product.title} />
       </div>
-      <CardHeader className="flex flex-col justify-between p-2">
-        <p className="text-sm text-slate-500">{product.tags[0].title}</p>
+      <CardHeader className="flex flex-col gap-1 p-2">
         <CardTitle className="">
           <Link
             href={`/store/products/${product.slug.current}`}
@@ -25,6 +34,7 @@ const ProductCard = ({ product }: Prop) => {
             {product.brand.title} {product.title}
           </Link>
         </CardTitle>
+        <p className="text-sm text-gray-500">{product.tags[0].title}</p>
       </CardHeader>
     </Card>
   );
