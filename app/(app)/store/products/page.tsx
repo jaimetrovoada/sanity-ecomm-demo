@@ -1,5 +1,6 @@
 import { Brand, Category } from "@/@types";
 import FilterList from "@/components/filterList";
+import Main from "@/components/main";
 import Pagination from "@/components/pagination";
 import ProductList from "@/components/productList";
 import { getBrands, getCategories, getProducts } from "@/lib/queries";
@@ -36,7 +37,7 @@ const Page = async ({ searchParams }: Props) => {
   }
 
   return (
-    <main className="flex flex-1 flex-col p-2 lg:flex-row lg:p-4">
+    <Main className="flex flex-1 flex-col gap-2 lg:flex-row">
       <aside className="flex lg:sticky lg:top-0 lg:w-1/6 lg:flex-col lg:self-start">
         <section className="flex-1 p-2 lg:flex-none">
           <h2 className={cn("font-semibold")}>Categories</h2>
@@ -54,7 +55,7 @@ const Page = async ({ searchParams }: Props) => {
           currentPage={(page as string) || "1"}
         />
       </section>
-    </main>
+    </Main>
   );
 };
 

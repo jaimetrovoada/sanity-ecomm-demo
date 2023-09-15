@@ -17,6 +17,7 @@ import { Loader, Loader2, MinusIcon, PlusIcon, TrashIcon } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
 import { placeOrder } from "@/lib/queries";
 import { useState } from "react";
+import Main from "@/components/main";
 
 const formSchema = z.object({
   name: z.string().min(2, { message: "Name is too short" }),
@@ -90,7 +91,7 @@ const Page = () => {
   };
 
   return (
-    <main className="flex h-full flex-col px-4 md:flex-row">
+    <Main className="flex h-full flex-col md:flex-row">
       <aside className="p-4 md:flex-1">
         <h2 className="mb-2 text-2xl font-semibold">Your Items</h2>
         <div>
@@ -241,7 +242,7 @@ const Page = () => {
           </form>
         </Form>
       </section>
-    </main>
+    </Main>
   );
 };
 

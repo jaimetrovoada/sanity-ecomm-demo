@@ -2,10 +2,11 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { HeartIcon, ShoppingCartIcon, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import ProductCard from "@/components/productCard";
+import Main from "@/components/main";
 
 const Loading = () => {
   return (
-    <main className="container flex h-full flex-col gap-12 p-2 md:p-4">
+    <Main className="flex flex-col gap-12">
       <div className="flex flex-col gap-4 rounded-md bg-white p-2 md:flex-row md:justify-evenly">
         <aside className="aspect-square h-full w-full md:w-1/3">
           <Skeleton className="h-full w-full" />
@@ -53,7 +54,7 @@ const Loading = () => {
           </li>
         </ul>
       </section>
-    </main>
+    </Main>
   );
 };
 

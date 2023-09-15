@@ -9,6 +9,7 @@ import type { Metadata } from "next";
 import ProductImage from "@/components/productImage";
 import { Suspense } from "react";
 import ProductImageSlide from "@/components/productImageSlide";
+import Main from "@/components/main";
 
 interface Props {
   params: {
@@ -29,7 +30,7 @@ const Page = async ({ params }: Props) => {
   }
 
   return (
-    <main className="container flex h-full flex-col gap-12 p-2 md:p-4">
+    <Main className="flex flex-col gap-12">
       <div className="flex flex-col gap-4 rounded-md bg-white p-2 md:flex-row md:justify-evenly">
         <aside className="flex w-full flex-col gap-1 md:w-1/3">
           <ProductImageSlide images={product.images} title={product.title} />
@@ -61,7 +62,7 @@ const Page = async ({ params }: Props) => {
       <Suspense fallback={<RelatedProductsList.Skeleton />}>
         <RelatedProductsList slug={item} />
       </Suspense>
-    </main>
+    </Main>
   );
 };
 

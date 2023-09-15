@@ -1,4 +1,5 @@
 import FeaturedSection from "@/components/featuredSection";
+import Main from "@/components/main";
 import { getCollections } from "@/lib/queries";
 import { redirect } from "next/navigation";
 import React from "react";
@@ -8,9 +9,9 @@ export default async function Page() {
 
   if (collections instanceof Error) {
     return (
-      <main className="space-y-4 p-2 md:p-4">
+      <Main className="flex flex-col gap-4">
         <p>crickets</p>
-      </main>
+      </Main>
     );
   }
 
@@ -18,7 +19,7 @@ export default async function Page() {
     redirect("/store/products");
   }
   return (
-    <main className="space-y-4 p-2 md:p-4">
+    <Main className="flex flex-col gap-4">
       {collections.map((collection) => (
         <FeaturedSection
           key={collection._id}
@@ -27,6 +28,6 @@ export default async function Page() {
           products={collection.recommendations}
         />
       ))}
-    </main>
+    </Main>
   );
 }

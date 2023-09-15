@@ -1,10 +1,11 @@
 import ProductCard from "@/components/productCard";
 import FilterList from "@/components/filterList";
 import { cn } from "@/lib/utils";
+import Main from "@/components/main";
 
 const Loading = () => {
   return (
-    <main className="container flex flex-1 flex-col gap-2 py-4 lg:flex-row">
+    <Main className="flex flex-1 flex-col gap-2 lg:flex-row">
       <aside className="flex lg:sticky lg:top-0 lg:w-1/6 lg:flex-col lg:self-start">
         <section className="flex-1 p-2 lg:flex-none">
           <h2 className={cn("font-semibold")}>Categories</h2>
@@ -26,7 +27,7 @@ const Loading = () => {
           </div>
         </div>
       </section>
-    </main>
+    </Main>
   );
 };
 

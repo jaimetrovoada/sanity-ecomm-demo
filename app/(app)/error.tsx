@@ -1,4 +1,5 @@
 "use client"; // Error components must be Client Components
+import Main from "@/components/main";
 import { Button } from "@/components/ui/button";
 
 import { useEffect } from "react";
@@ -16,7 +17,7 @@ export default function Error({
   }, [error]);
 
   return (
-    <main className="container flex h-full max-h-full flex-col items-center justify-center p-2 md:p-4">
+    <Main className="flex h-full max-h-full flex-col items-center justify-center">
       <section className="grid h-1/2 w-1/2 place-content-center gap-4 rounded-md bg-white p-4 text-center">
         <h2>Something went wrong!</h2>
 
@@ -26,6 +27,6 @@ export default function Error({
 
         <Button onClick={() => reset()}>Try again</Button>
       </section>
-    </main>
+    </Main>
   );
 }

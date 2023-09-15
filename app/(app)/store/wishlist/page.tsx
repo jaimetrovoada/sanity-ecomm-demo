@@ -1,6 +1,7 @@
 "use client";
 
 import { WishlistItem } from "@/@types";
+import Main from "@/components/main";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
 import { TrashIcon } from "lucide-react";
@@ -22,14 +23,14 @@ const Page = () => {
   };
 
   return (
-    <main className="p-2 md:p-4">
+    <Main>
       <section className="mx-auto w-full max-w-4xl bg-white p-4">
         <h2 className="text-2xl font-semibold">Wishlist</h2>
         {isClient ? (
           <List state={state} removeFromWishlist={removeFromWishlist} />
         ) : null}
       </section>
-    </main>
+    </Main>
   );
 };
 
