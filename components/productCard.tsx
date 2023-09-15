@@ -11,22 +11,20 @@ interface Prop {
 }
 const ProductCard = ({ product }: Prop) => {
   return (
-    <Card className="group flex flex-col overflow-hidden border-0 bg-transparent shadow-none">
-      <div className="w-full overflow-hidden rounded-lg">
+    <Card className="group flex flex-col overflow-hidden">
+      <div className="w-full">
         <ProductImage image={product.images[0]} alt={product.title} />
       </div>
-      <CardHeader className="flex flex-col justify-between p-2 md:flex-row md:items-center">
+      <CardHeader className="flex flex-col justify-between p-2">
+        <p className="text-sm text-slate-500">{product.tags[0].title}</p>
         <CardTitle className="">
           <Link
             href={`/store/products/${product.slug.current}`}
-            className="line-clamp-1 text-base group-hover:underline md:text-lg"
+            className="text-base group-hover:underline"
           >
-            {product.title}
+            {product.brand.title} {product.title}
           </Link>
         </CardTitle>
-        <div className="text-sm font-normal text-gray-600 md:text-base">
-          ${product.price}
-        </div>
       </CardHeader>
     </Card>
   );
