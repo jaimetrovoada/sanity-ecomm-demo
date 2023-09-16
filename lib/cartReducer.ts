@@ -19,7 +19,7 @@ export enum CartActions {
   CHANGE_QUANTITY = "CHANGE_QUANTITY",
 }
 
-type CartAction = {
+export type CartAction = {
   type: CartActions;
   payload: CartProduct;
 };
