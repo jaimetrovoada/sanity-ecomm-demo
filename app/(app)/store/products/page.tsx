@@ -12,10 +12,11 @@ interface Props {
 }
 
 const Page = async ({ searchParams }: Props) => {
-  const { category, brand, page } = searchParams;
+  const { categories: sCategeories, brands: sBrands, page } = searchParams;
+
   const products = await getProducts({
-    category: category as string,
-    brand: brand as string,
+    categories: sCategeories,
+    brands: sBrands,
     pageIndex: page as string,
   });
 
@@ -38,14 +39,10 @@ const Page = async ({ searchParams }: Props) => {
 
   return (
     <Main className="flex flex-1 flex-col gap-2 lg:flex-row">
-      <aside className="flex lg:sticky lg:top-0 lg:w-1/6 lg:flex-col lg:self-start">
+      <aside className="flex flex-col lg:sticky lg:top-0 lg:w-1/6 lg:self-start">
+        <p className="uppercase">filters</p>
         <section className="flex-1 p-2 lg:flex-none">
-          <h2 className={cn("font-semibold")}>Categories</h2>
-          <FilterList list={categoriesData} parameter="category" />
-        </section>
-        <section className="flex-1 p-2 lg:flex-none">
-          <h2 className={cn("font-semibold")}>Brands</h2>
-          <FilterList list={brandsData} parameter="brand" />
+          <FilterList categories={categoriesData} brands={brandsData} />
         </section>
       </aside>
       <section className={cn("flex flex-1 flex-col")}>
