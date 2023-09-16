@@ -17,7 +17,8 @@ export enum CartActions {
   ADD_ITEM = "ADD_ITEM",
   REMOVE_ITEM = "REMOVE_ITEM",
   CLEAR_CART = "CLEAR_CART",
-  CHANGE_QUANTITY = "CHANGE_QUANTITY",
+  INCREMENT_QUANTITY = "INCREMENT_QUANTITY",
+  DECREMENT_QUANTITY = "DECREMENT_QUANTITY",
 }
 
 export type CartAction = {
@@ -50,7 +51,7 @@ export const cartReducer = (state: CartState, action: CartAction) => {
         cartItems: [],
         totalPrice: 0,
       };
-    case CartActions.CHANGE_QUANTITY:
+    case CartActions.INCREMENT_QUANTITY:
       return {
         cartItems: state.cartItems.map((item) => {
           if (item.id === action.payload.id) {
@@ -59,6 +60,16 @@ export const cartReducer = (state: CartState, action: CartAction) => {
           return item;
         }),
         totalPrice: state.totalPrice + action.payload.price,
+      };
+    case CartActions.DECREMENT_QUANTITY:
+      return {
+        cartItems: state.cartItems.map((item) => {
+          if (item.id === action.payload.id) {
+            return { ...item, quantity: action.payload.quantity };
+          }
+          return item;
+        }),
+        totalPrice: state.totalPrice - action.payload.price,
       };
     default:
       return state;

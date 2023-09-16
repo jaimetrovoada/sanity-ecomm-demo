@@ -14,7 +14,7 @@ const Page = () => {
 
   const increaseItemAmount = (item: CartProduct) => {
     dispatch({
-      type: CartActions.CHANGE_QUANTITY,
+      type: CartActions.INCREMENT_QUANTITY,
       payload: {
         ...item,
         quantity: item.quantity + 1,
@@ -23,9 +23,12 @@ const Page = () => {
   };
 
   const decreaseItemAmount = (item: CartProduct) => {
+    if (item.quantity === 1) {
+      return;
+    }
     const quantity = item.quantity - 1;
     dispatch({
-      type: CartActions.CHANGE_QUANTITY,
+      type: CartActions.DECREMENT_QUANTITY,
       payload: {
         ...item,
         quantity: quantity,
@@ -71,6 +74,7 @@ const Page = () => {
                         variant="ghost"
                         size="icon"
                         onClick={() => decreaseItemAmount(item)}
+                        disabled={item.quantity === 1}
                       >
                         <MinusIcon size={16} />
                       </Button>
