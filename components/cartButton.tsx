@@ -25,6 +25,7 @@ const CartButton = ({ product }: Props) => {
           quantity,
           name: product.title,
           price: product.price,
+          image: product.images[0].asset.url,
         },
       });
 
@@ -41,6 +42,7 @@ const CartButton = ({ product }: Props) => {
         quantity: 1,
         name: product.title,
         price: product.price,
+        image: product.images[0].asset.url,
       },
     });
 
@@ -53,7 +55,7 @@ const CartButton = ({ product }: Props) => {
   return (
     <Button
       variant="outline"
-      className="bg-yellow-400 inline-flex items-center gap-2 hover:bg-yellow-400/80"
+      className="inline-flex items-center gap-2 bg-yellow-400 hover:bg-yellow-400/80"
       aria-label="Add to cart"
       onClick={addToCart}
     >
