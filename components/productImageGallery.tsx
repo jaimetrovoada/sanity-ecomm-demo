@@ -4,6 +4,7 @@ import { useState } from "react";
 import ProductImage from "./productImage";
 import { Button } from "./ui/button";
 import ScrollableArea from "./scrollableArea";
+import { cn } from "@/lib/utils";
 
 interface Props {
   images: Product["images"];
@@ -14,13 +15,18 @@ const ProductImageGallery = ({ images, title }: Props) => {
   return (
     <>
       <ProductImage image={mainImage} alt={title} priority />
-      <ScrollableArea className="[&>button]:shrink-0 [&>button]:basis-1/4">
-        {[...images, ...images, ...images, ...images].map((image) => (
+      <ScrollableArea className="h-20 p-2 [&>button]:w-20 [&>button]:shrink-0">
+        {images.map((image) => (
           <Button
             onClick={() => setMainImage(image)}
             variant={"ghost"}
             key={image._key}
-            className="aspect-square h-auto p-0"
+            className={cn(
+              "aspect-square h-auto overflow-hidden border-2 border-transparent p-0",
+              {
+                "border-slate-400": mainImage === image,
+              },
+            )}
           >
             <ProductImage image={image} alt={title} />
           </Button>
