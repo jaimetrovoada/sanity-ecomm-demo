@@ -21,6 +21,7 @@ export interface Product {
     _type: "slug";
   };
   description: string;
+  sizes: Array<string>;
   images: Array<Image>;
   tags: Array<{
     title: string;

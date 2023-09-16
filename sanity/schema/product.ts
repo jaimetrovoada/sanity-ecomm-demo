@@ -52,6 +52,17 @@ export default defineType({
         },
       ],
     }),
+    defineField({
+      title: "Sizes",
+      name: "sizes",
+      type: "array",
+      initialValue: ["one-size"],
+      of: [
+        {
+          type: "string",
+        },
+      ],
+    }),
   ],
   preview: {
     select: {
