@@ -9,11 +9,13 @@ export default defineType({
       name: "title",
       title: "Title",
       type: "string",
+      validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: "slug",
       title: "Slug",
       type: "slug",
+      validation: (Rule) => Rule.required(),
       options: {
         source: "title",
         maxLength: 96,
@@ -23,28 +25,33 @@ export default defineType({
       name: "brand",
       title: "Brand",
       type: "reference",
+      validation: (Rule) => Rule.required(),
       to: [{ type: "brand" }],
     }),
     defineField({
       name: "description",
       title: "Description",
       type: "text",
+      validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: "price",
       title: "Price",
       type: "number",
+      validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: "images",
       title: "Images",
       type: "array",
+      validation: (Rule) => Rule.required(),
       of: [{ type: "image" }],
     }),
     defineField({
       title: "Tags",
       name: "tags",
       type: "array",
+      validation: (Rule) => Rule.required(),
       of: [
         {
           type: "reference",
@@ -56,6 +63,7 @@ export default defineType({
       title: "Sizes",
       name: "sizes",
       type: "array",
+      validation: (Rule) => Rule.required(),
       initialValue: ["one-size"],
       of: [
         {

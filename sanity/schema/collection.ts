@@ -8,12 +8,15 @@ export default defineType({
   fields: [
     defineField({
       name: "title",
+      title: "Title",
       type: "string",
+      validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: "slug",
       type: "slug",
       title: "Slug",
+      validation: (Rule) => Rule.required(),
       options: {
         source: "title",
         maxLength: 96,
@@ -23,13 +26,14 @@ export default defineType({
       name: "description",
       type: "text",
       title: "Description",
+      validation: (Rule) => Rule.required(),
     }),
     defineField({
       title: "Featured Products",
       name: "recommendations",
       type: "array",
       of: [{ type: "featured" }],
-      validation: (rule) =>
+      validation: (rule) => [
         rule.custom((items?: Featured[]) => {
           const featuredItems = items
             ? items.filter((item) => item.featured)
@@ -46,6 +50,8 @@ export default defineType({
 
           return true;
         }),
+        rule.required(),
+      ],
     }),
   ],
 });
