@@ -1,5 +1,6 @@
 "use client";
 
+import { paymentSchema } from "@/app/api/checkout_sessions/route";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -12,12 +13,15 @@ import {
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/components/ui/use-toast";
 import { CartAction, CartState } from "@/lib/cartReducer";
+import getStripe from "@/lib/get-stripe";
 import { placeOrder } from "@/lib/queries";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
 import { Dispatch, useState } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
+import Stripe from "stripe";
+import { useIsClient } from "usehooks-ts";
 
 const formSchema = z.object({
   name: z.string().min(2, { message: "Name is too short" }),
@@ -35,30 +39,45 @@ interface Props {
 const PaymentForm = ({ state, dispatch }: Props) => {
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
+  const isClient = useIsClient();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
   });
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log("submit", { values });
     setIsLoading(true);
-    const res = await placeOrder(state.cartItems, state.totalPrice, values);
-    setIsLoading(false);
-
-    if (res instanceof Error) {
+    try {
+      const stripe = await getStripe();
+      const body = paymentSchema.parse({
+        customer: {
+          name: values.name,
+          email: values.email,
+          address: values.address,
+          city: values.city,
+          zipcode: values.zipcode,
+        },
+        items: state.cartItems,
+      });
+      console.log({ body });
+      const res = await fetch("/api/checkout_sessions", {
+        method: "POST",
+        body: JSON.stringify(body),
+      });
+      const data = (await res.json()) as Stripe.Checkout.Session;
+      const sessionId = data.id!;
+      await stripe?.redirectToCheckout({ sessionId });
+    } catch (error) {
+      console.log({ error });
       return toast({
         variant: "destructive",
         title: "Uh oh! Something went wrong.",
         description: "There was a problem with your request.",
       });
+    } finally {
+      setIsLoading(false);
     }
-    return toast({
-      title: "Success!",
-      description: "Your order has been placed!",
-    });
+    console.log("submit", { values });
   };
 
   return (
@@ -140,10 +159,15 @@ const PaymentForm = ({ state, dispatch }: Props) => {
         <div className="mt-auto flex flex-row justify-between font-semibold">
           <span>Total:</span>
           <span>
-            {state.totalPrice.toLocaleString("en-US", {
-              style: "currency",
-              currency: "USD",
-            })}
+            {isClient
+              ? state.totalPrice.toLocaleString("en-US", {
+                  style: "currency",
+                  currency: "USD",
+                })
+              : Number(0).toLocaleString("en-US", {
+                  style: "currency",
+                  currency: "USD",
+                })}
           </span>
         </div>
         <Button type="submit" disabled={isLoading || !form.formState.isValid}>
