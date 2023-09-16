@@ -8,7 +8,7 @@ import RelatedProductsList from "@/components/relatedProductsList";
 import type { Metadata } from "next";
 import ProductImage from "@/components/productImage";
 import { Suspense } from "react";
-import ProductImageSlide from "@/components/productImageSlide";
+import ProductImageGallery from "@/components/productImageGallery";
 import Main from "@/components/main";
 
 interface Props {
@@ -33,7 +33,7 @@ const Page = async ({ params }: Props) => {
     <Main className="flex flex-col gap-12">
       <div className="flex flex-col gap-4 rounded-md bg-white p-2 md:flex-row md:justify-evenly">
         <aside className="flex w-full flex-col gap-1 md:w-1/3">
-          <ProductImageSlide images={product.images} title={product.title} />
+          <ProductImageGallery images={product.images} title={product.title} />
         </aside>
         <section className="flex w-full max-w-prose flex-col">
           <div>

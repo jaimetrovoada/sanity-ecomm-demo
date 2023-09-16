@@ -9,7 +9,7 @@ interface Props {
   images: Product["images"];
   title: string;
 }
-const ProductImageSlide = ({ images, title }: Props) => {
+const ProductImageGallery = ({ images, title }: Props) => {
   const [mainImage, setMainImage] = useState(images[0]);
   return (
     <>
@@ -30,4 +30,4 @@ const ProductImageSlide = ({ images, title }: Props) => {
   );
 };
 
-export default ProductImageSlide;
+export default ProductImageGallery;
