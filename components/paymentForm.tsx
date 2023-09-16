@@ -1,6 +1,6 @@
 "use client";
 
-import { paymentSchema } from "@/app/api/checkout_sessions/route";
+import { paymentSchema } from "@/lib/schemas";
 import { Button } from "@/components/ui/button";
 import {
   Form,

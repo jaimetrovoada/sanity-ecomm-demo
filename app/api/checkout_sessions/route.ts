@@ -1,22 +1,11 @@
 import { NextResponse, NextRequest } from "next/server";
 import Stripe from "stripe";
-import * as z from "zod";
+import { paymentSchema } from "@/lib/schemas";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   typescript: true,
   apiVersion: "2023-08-16",
 });
-
-const itemSchema = z.object({
-  name: z.string().min(2, { message: "Name is too short" }),
-  price: z.number(),
-  quantity: z.number(),
-  image: z.string().url(),
-});
-export const paymentSchema = z.object({
-  items: z.array(itemSchema),
-});
-export type PaymentData = z.infer<typeof paymentSchema>;
 
 export async function POST(req: NextRequest) {
   try {
