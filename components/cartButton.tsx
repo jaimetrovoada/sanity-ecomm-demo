@@ -19,7 +19,7 @@ const CartButton = ({ product }: Props) => {
     if (prod) {
       const quantity = prod.quantity + 1;
       dispatch({
-        type: CartActions.CHANGE_QUANTITY,
+        type: CartActions.INCREMENT_QUANTITY,
         payload: {
           id: product._id,
           quantity,
