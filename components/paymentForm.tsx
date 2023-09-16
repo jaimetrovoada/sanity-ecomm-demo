@@ -23,14 +23,6 @@ import * as z from "zod";
 import Stripe from "stripe";
 import { useIsClient } from "usehooks-ts";
 
-const formSchema = z.object({
-  name: z.string().min(2, { message: "Name is too short" }),
-  email: z.string().email(),
-  address: z.string().min(2, { message: "Address is too short" }),
-  city: z.string().min(2, { message: "City is too short" }),
-  zipcode: z.string().min(2, { message: "Zip code is too short" }),
-});
-
 interface Props {
   state: CartState;
   dispatch: Dispatch<CartAction>;
@@ -41,22 +33,11 @@ const PaymentForm = ({ state, dispatch }: Props) => {
   const [isLoading, setIsLoading] = useState(false);
   const isClient = useIsClient();
 
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-  });
-
-  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+  const onCheckout = async () => {
     setIsLoading(true);
     try {
       const stripe = await getStripe();
       const body = paymentSchema.parse({
-        customer: {
-          name: values.name,
-          email: values.email,
-          address: values.address,
-          city: values.city,
-          zipcode: values.zipcode,
-        },
         items: state.cartItems,
       });
       console.log({ body });
@@ -77,110 +58,38 @@ const PaymentForm = ({ state, dispatch }: Props) => {
     } finally {
       setIsLoading(false);
     }
-    console.log("submit", { values });
   };
 
   return (
-    <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(onSubmit)}
-        className="flex flex-1 flex-col gap-8"
-      >
-        <FormField
-          control={form.control}
-          name="name"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Name</FormLabel>
-              <FormControl>
-                <Input placeholder="John Doe" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="email"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Email</FormLabel>
-              <FormControl>
-                <Input placeholder="johndoe@example.com" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <div className="flex flex-row items-center gap-2">
-          <FormField
-            control={form.control}
-            name="city"
-            render={({ field }) => (
-              <FormItem className="grow">
-                <FormLabel>City</FormLabel>
-                <FormControl>
-                  <Input placeholder="San Francisco" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="zipcode"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Zip Code</FormLabel>
-                <FormControl>
-                  <Input placeholder="94111" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        </div>
-        <FormField
-          control={form.control}
-          name="address"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Address</FormLabel>
-              <FormControl>
-                <Input
-                  placeholder="123 Main St, San Francisco, CA"
-                  {...field}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <div className="mt-auto flex flex-row justify-between font-semibold">
-          <span>Total:</span>
-          <span>
-            {isClient
-              ? state.totalPrice.toLocaleString("en-US", {
-                  style: "currency",
-                  currency: "USD",
-                })
-              : Number(0).toLocaleString("en-US", {
-                  style: "currency",
-                  currency: "USD",
-                })}
-          </span>
-        </div>
-        <Button type="submit" disabled={isLoading || !form.formState.isValid}>
-          {isLoading ? (
-            <>
-              <Loader2 size={16} className="mr-2 animate-spin" /> Processing...
-            </>
-          ) : (
-            "Place Order"
-          )}
-        </Button>
-      </form>
-    </Form>
+    <div>
+      <div className="mt-auto flex flex-row justify-between border-b border-gray-200 p-2 font-semibold">
+        <span className="text-gray-500">Total:</span>
+        <span>
+          {isClient
+            ? state.totalPrice.toLocaleString("en-US", {
+                style: "currency",
+                currency: "USD",
+              })
+            : Number(0).toLocaleString("en-US", {
+                style: "currency",
+                currency: "USD",
+              })}
+        </span>
+      </div>
+      <div className="mt-auto flex flex-row justify-between border-b border-gray-200 p-2 font-semibold">
+        <span className="text-gray-500">Shipping:</span>
+        <span>Free</span>
+      </div>
+      <Button onClick={onCheckout} disabled={isLoading} className="mt-4">
+        {isLoading ? (
+          <>
+            <Loader2 size={16} className="mr-2 animate-spin" /> Processing...
+          </>
+        ) : (
+          "Proceed"
+        )}
+      </Button>
+    </div>
   );
 };
 

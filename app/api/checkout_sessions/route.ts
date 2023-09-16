@@ -7,13 +7,6 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   apiVersion: "2023-08-16",
 });
 
-const customerSchema = z.object({
-  name: z.string().min(2, { message: "Name is too short" }),
-  email: z.string().email(),
-  address: z.string().min(2, { message: "Address is too short" }),
-  city: z.string().min(2, { message: "City is too short" }),
-  zipcode: z.string().min(2, { message: "Zip code is too short" }),
-});
 const itemSchema = z.object({
   name: z.string().min(2, { message: "Name is too short" }),
   price: z.number(),
@@ -21,7 +14,6 @@ const itemSchema = z.object({
   image: z.string().url(),
 });
 export const paymentSchema = z.object({
-  customer: customerSchema,
   items: z.array(itemSchema),
 });
 export type PaymentData = z.infer<typeof paymentSchema>;
