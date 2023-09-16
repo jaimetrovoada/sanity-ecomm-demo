@@ -11,21 +11,27 @@ import { groq } from "next-sanity";
 import { CartProduct } from "./cartReducer";
 
 export async function getProducts(filters: {
-  brand?: string;
-  category?: string;
+  brands?: string | string[];
+  categories?: string | string[];
   pageIndex?: string;
 }): Promise<PaginatedProducts | Error> {
   const ITEMS_PER_PAGE = 5;
   const pageIndex = parseInt(filters.pageIndex || "1");
 
-  const brandFilter = filters.brand
-    ? "&& references(*[_type=='brand' && slug.current == $brand]._id)"
+  const brandFilter = filters.brands ? "&& brand->slug.current in $brands" : "";
+
+  const categoryFilter = filters.categories
+    ? "&& count((tags[]->slug.current)[@ in $categories]) > 0"
     : "";
 
-  const categoryFilter = filters.category
-    ? `&& references(*[_type=='category' && slug.current == $category]._id)`
-    : "";
+  const brandsArr = Array.isArray(filters.brands)
+    ? filters.brands
+    : [filters.brands];
+  const categoriesArr = Array.isArray(filters.categories)
+    ? filters.categories
+    : [filters.categories];
 
+  console.log({ brandsArr, categoriesArr });
   try {
     const res = await client.fetch<PaginatedProducts>(
       groq`
@@ -42,8 +48,8 @@ export async function getProducts(filters: {
     'currentPage': $pageIndex + 1
 }`,
       {
-        brand: filters.brand || "",
-        category: filters.category || "",
+        brands: filters.brands ? brandsArr : "",
+        categories: filters.categories ? categoriesArr : "",
         itemsPerPage: ITEMS_PER_PAGE,
         pageIndex: pageIndex - 1,
       },
@@ -92,7 +98,7 @@ export async function getSameBrandProducts(
     );
     return res;
   } catch (error) {
-    console.log({error})
+    console.log({ error });
     return error as Error;
   }
 }
