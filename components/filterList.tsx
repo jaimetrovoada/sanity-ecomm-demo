@@ -24,8 +24,8 @@ import { useForm } from "react-hook-form";
 import * as z from "zod";
 
 interface Props {
-  categories: Category[];
-  brands: Brand[];
+  categories: Category[] | null;
+  brands: Brand[] | null;
 }
 
 const FormSchema = z.object({

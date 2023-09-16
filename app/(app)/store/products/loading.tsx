@@ -6,14 +6,10 @@ import Main from "@/components/main";
 const Loading = () => {
   return (
     <Main className="flex flex-1 flex-col gap-2 lg:flex-row">
-      <aside className="flex lg:sticky lg:top-0 lg:w-1/6 lg:flex-col lg:self-start">
+      <aside className="flex flex-col lg:sticky lg:top-0 lg:w-1/6 lg:self-start">
+        <p className="uppercase">filters</p>
         <section className="flex-1 p-2 lg:flex-none">
-          <h2 className={cn("font-semibold")}>Categories</h2>
-          <FilterList list={null} parameter="category" />
-        </section>
-        <section className="flex-1 p-2 lg:flex-none">
-          <h2 className={cn("font-semibold")}>Brands</h2>
-          <FilterList list={null} parameter="brand" />
+          <FilterList categories={null} brands={null} />
         </section>
       </aside>
       <section className={cn("flex flex-1 flex-col")}>
