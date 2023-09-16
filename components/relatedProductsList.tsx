@@ -29,7 +29,7 @@ const RelatedProductsList = async ({ slug }: Props) => {
         </Link>
         <ArrowRight className="h-4 w-4" />
       </h2>
-      <ScrollableArea className="gap-2 [&>div]:shrink-0 [&>div]:basis-1/5">
+      <ScrollableArea className="gap-2 [&>div]:w-1/3 [&>div]:shrink-0 md:[&>div]:w-1/5">
         {[...related, ...related, ...related].map((product) => (
           <ProductCard product={product} key={product._id} />
         ))}
@@ -45,20 +45,12 @@ const Skeleton = () => {
         More
         <ArrowRight className="h-4 w-4" />
       </h3>
-      <ul className="mx-auto grid max-w-screen-lg snap-x snap-mandatory auto-cols-[45%] grid-flow-col gap-4 overflow-auto scroll-smooth md:auto-cols-[20%]">
-        <li>
-          <ProductCard.Skeleton />
-        </li>
-        <li>
-          <ProductCard.Skeleton />
-        </li>
-        <li>
-          <ProductCard.Skeleton />
-        </li>
-        <li>
-          <ProductCard.Skeleton />
-        </li>
-      </ul>
+      <ScrollableArea className="gap-2 [&>div]:w-1/3 [&>div]:shrink-0 md:[&>div]:w-1/5">
+        <ProductCard.Skeleton />
+        <ProductCard.Skeleton />
+        <ProductCard.Skeleton />
+        <ProductCard.Skeleton />
+      </ScrollableArea>
     </section>
   );
 };
