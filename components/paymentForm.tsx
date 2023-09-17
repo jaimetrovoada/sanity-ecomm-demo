@@ -80,7 +80,11 @@ const PaymentForm = ({ state, dispatch }: Props) => {
         <span className="text-gray-500">Shipping:</span>
         <span>Free</span>
       </div>
-      <Button onClick={onCheckout} disabled={isLoading} className="mt-4">
+      <Button
+        onClick={onCheckout}
+        disabled={isLoading || state.cartItems.length === 0}
+        className="mt-4"
+      >
         {isLoading ? (
           <>
             <Loader2 size={16} className="mr-2 animate-spin" /> Processing...
