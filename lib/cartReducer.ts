@@ -42,7 +42,10 @@ export const cartReducer = (state: CartState, action: CartAction) => {
     case CartActions.REMOVE_ITEM:
       return {
         cartItems: state.cartItems.filter(
-          (item) => item.id !== action.payload.id,
+          (item) =>
+            !(
+              item.id === action.payload.id && item.size === action.payload.size
+            ),
         ),
         totalPrice:
           state.totalPrice - action.payload.price * action.payload.quantity,
@@ -55,7 +58,10 @@ export const cartReducer = (state: CartState, action: CartAction) => {
     case CartActions.INCREMENT_QUANTITY:
       return {
         cartItems: state.cartItems.map((item) => {
-          if (item.id === action.payload.id) {
+          if (
+            item.id === action.payload.id &&
+            item.size === action.payload.size
+          ) {
             return { ...item, quantity: action.payload.quantity };
           }
           return item;
@@ -65,7 +71,10 @@ export const cartReducer = (state: CartState, action: CartAction) => {
     case CartActions.DECREMENT_QUANTITY:
       return {
         cartItems: state.cartItems.map((item) => {
-          if (item.id === action.payload.id) {
+          if (
+            item.id === action.payload.id &&
+            item.size === action.payload.size
+          ) {
             return { ...item, quantity: action.payload.quantity };
           }
           return item;

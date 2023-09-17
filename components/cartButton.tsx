@@ -15,23 +15,23 @@ const CartButton = ({ product, size }: Props) => {
   const { toast } = useToast();
 
   const addToCart = () => {
-    const prod = state.cartItems.find((item) => item.id === product._id);
     if (!size) return;
+    const sameSize = state.cartItems.find(
+      (item) => item.id === product._id && item.size === size,
+    );
 
-    if (prod) {
-      const quantity = prod.quantity + 1;
+    if (sameSize) {
       dispatch({
         type: CartActions.INCREMENT_QUANTITY,
         payload: {
           id: product._id,
-          quantity,
+          quantity: sameSize.quantity + 1,
           name: product.title,
           price: product.price,
           image: product.images[0].asset.url,
           size: size,
         },
       });
-
       return toast({
         title: "Item added to cart",
         duration: 1500,
