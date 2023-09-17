@@ -2,14 +2,13 @@ import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { getProductBySlug } from "@/lib/queries";
 import { notFound } from "next/navigation";
 import Image from "next/image";
-import CartButton from "@/components/cartButton";
-import WishlistButton from "@/components/wishlistButton";
 import RelatedProductsList from "@/components/relatedProductsList";
 import type { Metadata } from "next";
 import ProductImage from "@/components/productImage";
 import { Suspense } from "react";
 import ProductImageGallery from "@/components/productImageGallery";
 import Main from "@/components/main";
+import ClientSection from "./client_section";
 
 interface Props {
   params: {
@@ -35,23 +34,17 @@ const Page = async ({ params }: Props) => {
         <aside className="flex w-full flex-col gap-1 md:w-1/3">
           <ProductImageGallery images={product.images} title={product.title} />
         </aside>
-        <section className="flex w-full max-w-prose flex-col">
+        <section className="flex w-full max-w-prose flex-col gap-2">
           <div>
             <h2 className="tracking-widest text-gray-500">
               {product.brand.title}
             </h2>
           </div>
           <h1 className="text-3xl font-semibold">{product?.title}</h1>
-          <p className="mt-8 leading-relaxed text-gray-600">
+          <p className="mt-8 flex-1 leading-relaxed text-gray-600">
             {product.description}
           </p>
-          <div className="mt-auto flex flex-row items-center justify-between border-t-2 border-gray-100 py-2">
-            <span className="text-2xl font-medium">${product?.price}</span>
-            <div className="flex flex-row gap-2">
-              <WishlistButton product={product} />
-              <CartButton product={product} />
-            </div>
-          </div>
+          <ClientSection product={product} />
         </section>
       </div>
       <Suspense fallback={<RelatedProductsList.Skeleton />}>
