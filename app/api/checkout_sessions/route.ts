@@ -22,6 +22,9 @@ export async function POST(req: NextRequest) {
             product_data: {
               name: item.name,
               images: [item.image],
+              metadata: {
+                size: item.size,
+              },
             },
             unit_amount: item.price * 100,
           },

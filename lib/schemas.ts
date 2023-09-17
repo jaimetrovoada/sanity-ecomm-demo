@@ -5,6 +5,7 @@ const itemSchema = z.object({
   price: z.number(),
   quantity: z.number(),
   image: z.string().url(),
+  size: z.string(),
 });
 export const paymentSchema = z.object({
   items: z.array(itemSchema),
