@@ -29,8 +29,11 @@ const Cart = () => {
         <h2 className="text-lg font-semibold">Cart</h2>
         <section className="flex-1 p-2 text-gray-700">
           {state.cartItems.map((item) => (
-            <div key={item.id} className="flex flex-row justify-between">
-              <span>{item.name}</span>
+            <div key={item.id} className="flex flex-row justify-between py-1 border-b border-gray-200">
+              <div className="flex flex-col">
+                <span>{item.name}</span>
+                <span className="text-sm text-gray-500">size: {item.size}</span>
+              </div>
               <span>{item.quantity}</span>
             </div>
           ))}

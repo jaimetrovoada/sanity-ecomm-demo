@@ -6,6 +6,7 @@ export type CartProduct = {
   price: number;
   quantity: number;
   image: string;
+  size: string;
 };
 
 export interface CartState {

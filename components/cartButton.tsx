@@ -7,14 +7,16 @@ import { useToast } from "./ui/use-toast";
 
 interface Props {
   product: Product;
+  size: string | null;
 }
 
-const CartButton = ({ product }: Props) => {
+const CartButton = ({ product, size }: Props) => {
   const { state, dispatch } = useCart();
   const { toast } = useToast();
 
   const addToCart = () => {
     const prod = state.cartItems.find((item) => item.id === product._id);
+    if (!size) return;
 
     if (prod) {
       const quantity = prod.quantity + 1;
@@ -26,6 +28,7 @@ const CartButton = ({ product }: Props) => {
           name: product.title,
           price: product.price,
           image: product.images[0].asset.url,
+          size: size,
         },
       });
 
@@ -43,6 +46,7 @@ const CartButton = ({ product }: Props) => {
         name: product.title,
         price: product.price,
         image: product.images[0].asset.url,
+        size: size,
       },
     });
 
@@ -58,6 +62,7 @@ const CartButton = ({ product }: Props) => {
       className="inline-flex items-center gap-2 bg-yellow-400 hover:bg-yellow-400/80"
       aria-label="Add to cart"
       onClick={addToCart}
+      disabled={!size}
     >
       <ShoppingCartIcon size={16} />
       Add to cart
