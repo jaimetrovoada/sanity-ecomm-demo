@@ -54,9 +54,9 @@ const Page = () => {
         <h2 className="mb-2 text-2xl font-semibold">Your Items</h2>
         <div>
           {isClient
-            ? state.cartItems.map((item) => (
+            ? state.cartItems.map((item, idx) => (
                 <div
-                  key={item.id}
+                  key={item.id + "_" + idx}
                   className="group flex flex-row items-center justify-between border-b border-gray-200 py-2"
                 >
                   <div className="flex flex-col">
