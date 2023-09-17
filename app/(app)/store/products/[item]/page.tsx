@@ -43,12 +43,7 @@ const Page = async ({ params }: Props) => {
           </div>
           <h1 className="text-3xl font-semibold">{product?.title}</h1>
           <p className="mt-8 leading-relaxed text-gray-600">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Sapiente
-            eveniet praesentium inventore fugit exercitationem amet ex cum
-            cumque iure dolor? Excepturi impedit modi ad molestiae tenetur
-            expedita rerum doloremque dolorem ea minus nemo ipsa error iure
-            velit saepe a, officia quas, fugiat dolor ut. In eius facere
-            doloremque iusto culpa.
+            {product.description}
           </p>
           <div className="mt-auto flex flex-row items-center justify-between border-t-2 border-gray-100 py-2">
             <span className="text-2xl font-medium">${product?.price}</span>
