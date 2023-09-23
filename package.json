@@ -7,6 +7,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
+    "lint:types": "tsc --noEmit",
+    "format:check" : "prettier --check './**/*.{js,jsx,ts,tsx}'",
+    "format:write" : "prettier --write './**/*.{js,jsx,ts,tsx}'",
     "preinstall": "npx only-allow pnpm"
   },
   "dependencies": {
