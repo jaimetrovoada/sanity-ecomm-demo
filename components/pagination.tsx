@@ -5,56 +5,36 @@ import { useCallback } from "react";
 import { usePathname, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft, ArrowRight } from "lucide-react";
+import { useQueryState, parseAsInteger } from "next-usequerystate";
 
 interface Props {
   count: number;
-  currentPage: string | null;
+  currentPage: number;
 }
 const Pagination = ({ count, currentPage }: Props) => {
   const pathname = usePathname();
-  const searchParams = useSearchParams()!;
+  const [page, setPage] = useQueryState("page", parseAsInteger.withOptions({
+    shallow: false
+  }).withDefault(1))
 
-  const createQueryString = useCallback(
-    (name: string, value: string) => {
-      const params = new URLSearchParams(searchParams);
-      if (value === "1") {
-        params.delete(name);
-      } else {
-        params.set(name, value);
-      }
-
-      return params.toString();
-    },
-    [searchParams],
-  );
-
-  const isFirstPage = currentPage === "1";
-  const isLastPage = currentPage === count.toString();
-
-  const prevLink = (function () {
-    if (isFirstPage) {
-      return pathname;
-    }
-    if (currentPage === "2") {
-      return pathname;
-    }
-    return (
-      pathname +
-      "?" +
-      createQueryString("page", (Number(currentPage || "1") - 1).toString())
-    );
-  })();
-
-  const nextLink = (function () {
+  const isFirstPage = currentPage === 1;
+  const isLastPage = currentPage === count;
+  
+  const goToNext = () => {
     if (isLastPage) {
-      return pathname + "?" + createQueryString("page", currentPage || "1");
+    return}
+    setPage((prev) => prev ? prev + 1 : null)
+  }
+  const gotToPrev = () => {
+    if (isFirstPage) {
+      return
     }
-    return (
-      pathname +
-      "?" +
-      createQueryString("page", (Number(currentPage || "1") + 1).toString())
-    );
-  })();
+    if (page === 2) {
+      setPage(null)
+      return
+    }
+    setPage(prev => prev ? prev - 1 : null)
+  }
 
   return (
     <div className="flex items-center justify-center gap-1">
@@ -65,11 +45,9 @@ const Pagination = ({ count, currentPage }: Props) => {
         disabled={isFirstPage}
         aria-label="Previous page"
         aria-disabled={isFirstPage}
-        asChild
+        onClick={gotToPrev}
       >
-        <Link href={prevLink}>
           <ArrowLeft size={16} />
-        </Link>
       </Button>
       <p>
         {Number(currentPage || "1")} / {count}
@@ -81,11 +59,9 @@ const Pagination = ({ count, currentPage }: Props) => {
         disabled={isLastPage}
         aria-label="Next page"
         aria-disabled={isLastPage}
-        asChild
+        onClick={goToNext}
       >
-        <Link href={nextLink}>
           <ArrowRight size={16} />
-        </Link>
       </Button>
     </div>
   );

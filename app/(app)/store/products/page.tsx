@@ -6,18 +6,23 @@ import ProductList from "@/components/productList";
 import { getBrands, getCategories, getProducts } from "@/lib/queries";
 import { cn } from "@/lib/utils";
 import type { Metadata } from "next";
+import { parseAsArrayOf, parseAsInteger, parseAsString } from "next-usequerystate/parsers";
 
 interface Props {
   searchParams: { [key: string]: string | string[] | undefined };
 }
 
+const pageParser = parseAsInteger.withDefault(1)
+
 const Page = async ({ searchParams }: Props) => {
-  const { categories: sCategeories, brands: sBrands, page } = searchParams;
+  const sCategeories = parseAsArrayOf(parseAsString).parseServerSide(searchParams.categories)
+  const sBrands = parseAsArrayOf(parseAsString).parseServerSide(searchParams.brands)
+  const page = pageParser.parseServerSide(searchParams.page)
 
   const products = await getProducts({
     categories: sCategeories,
     brands: sBrands,
-    pageIndex: page as string,
+    pageIndex: page,
   });
 
   const categories = await getCategories();
@@ -49,7 +54,7 @@ const Page = async ({ searchParams }: Props) => {
         <ProductList products={products.products} />
         <Pagination
           count={Math.ceil(products.totalPageCount)}
-          currentPage={(page as string) || "1"}
+          currentPage={page}
         />
       </section>
     </Main>

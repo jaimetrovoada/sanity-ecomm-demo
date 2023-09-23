@@ -22,6 +22,7 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useCallback } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
+import {parseAsArrayOf, parseAsString, useQueryState, useQueryStates} from "next-usequerystate"
 
 interface Props {
   categories: Category[] | null;
@@ -46,24 +47,19 @@ function mergeSearchParams(params1: URLSearchParams, params2: URLSearchParams) {
 const FilterList = ({ brands, categories }: Props) => {
   const router = useRouter();
   const pathname = usePathname();
-  const searchParams = useSearchParams()!;
 
-  const createQueryString = useCallback((name: string, values: string[]) => {
-    const params = values.reduce((acc, cur) => {
-      acc.append(name, cur);
-      return acc;
-    }, new URLSearchParams());
-    return params;
-  }, []);
-
-  const sCategories = searchParams.getAll("categories");
-  const sBrands = searchParams.getAll("brands");
+  const [params, setParams] = useQueryStates({
+  brands: parseAsArrayOf(parseAsString),
+  categories: parseAsArrayOf(parseAsString),
+  }, {
+      shallow: false
+    })
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      categories: sCategories,
-      brands: sBrands,
+      categories: params.categories || [],
+      brands: params.brands || [],
     },
   });
 
@@ -71,19 +67,14 @@ const FilterList = ({ brands, categories }: Props) => {
     form.getFieldState("categories").isDirty ||
     form.getFieldState("brands").isDirty
   );
-  console.log({
-    submitDisabled: submitDisabled,
-    bransT: form.getFieldState("brands").isDirty,
-  });
+
   function onSubmit(data: z.infer<typeof FormSchema>) {
-    const params = mergeSearchParams(
-      createQueryString("brands", data.brands),
-      createQueryString("categories", data.categories),
-    );
 
-    const newUrl = pathname + "?" + params;
+    setParams({
+      brands: data.brands.length ? data.brands : null,
+      categories: data.categories.length ? data.categories : null,
+    })
 
-    return router.push(newUrl);
   }
 
   return (
