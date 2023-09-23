@@ -13,28 +13,34 @@ interface Props {
 }
 const Pagination = ({ count, currentPage }: Props) => {
   const pathname = usePathname();
-  const [page, setPage] = useQueryState("page", parseAsInteger.withOptions({
-    shallow: false
-  }).withDefault(1))
+  const [page, setPage] = useQueryState(
+    "page",
+    parseAsInteger
+      .withOptions({
+        shallow: false,
+      })
+      .withDefault(1),
+  );
 
   const isFirstPage = currentPage === 1;
   const isLastPage = currentPage === count;
-  
+
   const goToNext = () => {
     if (isLastPage) {
-    return}
-    setPage((prev) => prev ? prev + 1 : null)
-  }
+      return;
+    }
+    setPage((prev) => (prev ? prev + 1 : null));
+  };
   const gotToPrev = () => {
     if (isFirstPage) {
-      return
+      return;
     }
     if (page === 2) {
-      setPage(null)
-      return
+      setPage(null);
+      return;
     }
-    setPage(prev => prev ? prev - 1 : null)
-  }
+    setPage((prev) => (prev ? prev - 1 : null));
+  };
 
   return (
     <div className="flex items-center justify-center gap-1">
@@ -47,7 +53,7 @@ const Pagination = ({ count, currentPage }: Props) => {
         aria-disabled={isFirstPage}
         onClick={gotToPrev}
       >
-          <ArrowLeft size={16} />
+        <ArrowLeft size={16} />
       </Button>
       <p>
         {Number(currentPage || "1")} / {count}
@@ -61,7 +67,7 @@ const Pagination = ({ count, currentPage }: Props) => {
         aria-disabled={isLastPage}
         onClick={goToNext}
       >
-          <ArrowRight size={16} />
+        <ArrowRight size={16} />
       </Button>
     </div>
   );

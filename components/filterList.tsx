@@ -22,7 +22,12 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useCallback } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
-import {parseAsArrayOf, parseAsString, useQueryState, useQueryStates} from "next-usequerystate"
+import {
+  parseAsArrayOf,
+  parseAsString,
+  useQueryState,
+  useQueryStates,
+} from "next-usequerystate";
 
 interface Props {
   categories: Category[] | null;
@@ -48,12 +53,15 @@ const FilterList = ({ brands, categories }: Props) => {
   const router = useRouter();
   const pathname = usePathname();
 
-  const [params, setParams] = useQueryStates({
-  brands: parseAsArrayOf(parseAsString),
-  categories: parseAsArrayOf(parseAsString),
-  }, {
-      shallow: false
-    })
+  const [params, setParams] = useQueryStates(
+    {
+      brands: parseAsArrayOf(parseAsString),
+      categories: parseAsArrayOf(parseAsString),
+    },
+    {
+      shallow: false,
+    },
+  );
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -69,12 +77,10 @@ const FilterList = ({ brands, categories }: Props) => {
   );
 
   function onSubmit(data: z.infer<typeof FormSchema>) {
-
     setParams({
       brands: data.brands.length ? data.brands : null,
       categories: data.categories.length ? data.categories : null,
-    })
-
+    });
   }
 
   return (

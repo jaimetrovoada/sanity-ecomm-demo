@@ -12,11 +12,11 @@ import { CartProduct } from "./cartReducer";
 
 export async function getProducts(filters: {
   brands: string[] | null;
-  categories: string[] | null ;
-  pageIndex: number ;
+  categories: string[] | null;
+  pageIndex: number;
 }): Promise<PaginatedProducts | Error> {
   const ITEMS_PER_PAGE = 5;
-  const { brands, categories, pageIndex } = filters
+  const { brands, categories, pageIndex } = filters;
 
   const brandFilter = brands?.length ? `&& brand->slug.current in $brands` : "";
 
@@ -44,7 +44,7 @@ export async function getProducts(filters: {
         categories: categories ? categories : "",
         itemsPerPage: ITEMS_PER_PAGE,
         pageIndex: pageIndex - 1,
-      }
+      },
     );
     return res as PaginatedProducts;
   } catch (error) {

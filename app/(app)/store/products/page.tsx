@@ -6,18 +6,26 @@ import ProductList from "@/components/productList";
 import { getBrands, getCategories, getProducts } from "@/lib/queries";
 import { cn } from "@/lib/utils";
 import type { Metadata } from "next";
-import { parseAsArrayOf, parseAsInteger, parseAsString } from "next-usequerystate/parsers";
+import {
+  parseAsArrayOf,
+  parseAsInteger,
+  parseAsString,
+} from "next-usequerystate/parsers";
 
 interface Props {
   searchParams: { [key: string]: string | string[] | undefined };
 }
 
-const pageParser = parseAsInteger.withDefault(1)
+const pageParser = parseAsInteger.withDefault(1);
 
 const Page = async ({ searchParams }: Props) => {
-  const sCategeories = parseAsArrayOf(parseAsString).parseServerSide(searchParams.categories)
-  const sBrands = parseAsArrayOf(parseAsString).parseServerSide(searchParams.brands)
-  const page = pageParser.parseServerSide(searchParams.page)
+  const sCategeories = parseAsArrayOf(parseAsString).parseServerSide(
+    searchParams.categories,
+  );
+  const sBrands = parseAsArrayOf(parseAsString).parseServerSide(
+    searchParams.brands,
+  );
+  const page = pageParser.parseServerSide(searchParams.page);
 
   const products = await getProducts({
     categories: sCategeories,
