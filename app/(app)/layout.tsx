@@ -75,10 +75,7 @@ export default async function RootLayout({
   return (
     <html lang="en" className="h-full">
       <body
-        className={cn(
-          "flex min-h-screen flex-col bg-[#ECE9DE]",
-          inter.className,
-        )}
+        className={cn("flex min-h-screen flex-col bg-white", inter.className)}
       >
         <CartProvider>
           <Header categories={categoriesData} brands={brandsData} />
