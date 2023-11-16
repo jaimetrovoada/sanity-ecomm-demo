@@ -29,11 +29,11 @@ const RelatedProductsList = async ({ slug }: Props) => {
         </Link>
         <ArrowRight className="h-4 w-4" />
       </h2>
-      <ScrollableArea className="gap-2 [&>div]:w-1/3 [&>div]:shrink-0 md:[&>div]:w-1/5">
+      <div className="flex flex-wrap gap-0 [&>div]:w-1/3 [&>div]:shrink-0 md:[&>div]:w-1/5">
         {[...related, ...related, ...related].map((product) => (
           <ProductCard product={product} key={product._id} />
         ))}
-      </ScrollableArea>
+      </div>
     </section>
   );
 };
