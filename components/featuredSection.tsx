@@ -3,6 +3,7 @@ import { AspectRatio } from "@/components/ui/aspect-ratio";
 import Image from "next/image";
 import Link from "next/link";
 import ProductImage from "./productImage";
+import ProductCard from "./productCard";
 
 interface Props {
   name: string;
@@ -12,9 +13,9 @@ interface Props {
 
 const FeaturedSection = ({ name, description, products }: Props) => {
   return (
-    <section className="grid grid-cols-1 lg:grid-cols-2 lg:items-stretch [&_div#main]:odd:order-last">
+    <section className="grid grid-cols-1 lg:grid-cols-2 lg:items-stretch [&_div#main]:odd:order-last ">
       <div
-        className="grid place-content-center rounded bg-gray-100 p-6 sm:p-8"
+        className="grid place-content-center bg-gray-100 p-6 shadow-[0_0_0_1px] shadow-gray-500 sm:p-8"
         id="main"
       >
         <div className="mx-auto max-w-md text-center lg:text-left">
@@ -35,56 +36,12 @@ const FeaturedSection = ({ name, description, products }: Props) => {
         </div>
       </div>
 
-      <ul className="grid grid-cols-[1fr_1px_1fr]">
-        <li className="bg-white py-2">
-          <Link
-            href={`/store/products/${products[0].product?.slug.current}`}
-            className="group block"
-          >
-            <ProductImage
-              image={products[0].product?.images[0]!}
-              alt={products[0].product?.title!}
-            />
-
-            <div className="mt-3 px-2">
-              <h3 className="font-medium text-gray-900 group-hover:underline group-hover:underline-offset-4">
-                {products[0].product?.title}
-              </h3>
-
-              <p className="mt-1 text-sm text-gray-700">
-                {products[0].product?.price?.toLocaleString("en-US", {
-                  style: "currency",
-                  currency: "USD",
-                })}
-              </p>
-            </div>
-          </Link>
+      <ul className="grid grid-cols-2">
+        <li>
+          <ProductCard product={products[0].product!} />
         </li>
-        <div className="h-full w-px bg-gray-300"></div>
-
-        <li className="bg-white py-2">
-          <Link
-            href={`/store/products/${products[1].product?.slug.current}`}
-            className="group block"
-          >
-            <ProductImage
-              image={products[1].product?.images[0]!}
-              alt={products[0].product?.title!}
-            />
-
-            <div className="mt-3 px-2">
-              <h3 className="font-medium text-gray-900 group-hover:underline group-hover:underline-offset-4">
-                {products[1].product?.title}
-              </h3>
-
-              <p className="mt-1 text-sm text-gray-700">
-                {products[1].product?.price?.toLocaleString("en-US", {
-                  style: "currency",
-                  currency: "USD",
-                })}
-              </p>
-            </div>
-          </Link>
+        <li>
+          <ProductCard product={products[1].product!} />
         </li>
       </ul>
     </section>
