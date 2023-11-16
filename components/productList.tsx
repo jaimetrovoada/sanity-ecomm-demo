@@ -17,7 +17,7 @@ const ProductList = ({ products }: Props) => {
 
   return (
     <div className="flex-1">
-      <div className="grid grid-cols-1 gap-2 md:grid-cols-4 md:gap-4 xl:grid-cols-5">
+      <div className="grid grid-cols-1 md:grid-cols-4 xl:grid-cols-5">
         {products.map((product) => (
           <ProductCard
             key={product.slug.current}
