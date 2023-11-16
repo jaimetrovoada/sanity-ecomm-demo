@@ -15,9 +15,12 @@ interface Prop {
 const ProductCard = ({ product, useListStyle = false }: Prop) => {
   return (
     <Card
-      className={cn("group flex flex-col overflow-hidden", {
-        "flex-row md:flex-col": useListStyle,
-      })}
+      className={cn(
+        "group flex flex-col overflow-hidden rounded-none shadow-[0_0_0_1px] shadow-gray-500 ",
+        {
+          "flex-row md:flex-col": useListStyle,
+        },
+      )}
     >
       <div
         className={cn("w-full", {
@@ -26,10 +29,7 @@ const ProductCard = ({ product, useListStyle = false }: Prop) => {
       >
         <ProductImage image={product.images[0]} alt={product.title} />
       </div>
-      <CardHeader className="flex flex-col gap-1 p-2">
-        <Badge variant="secondary" className="w-fit text-xs text-gray-600">
-          {product.tags[0].title}
-        </Badge>
+      <CardHeader className="flex flex-col gap-1 border-t border-gray-500 p-2">
         <CardTitle className="">
           <Link
             href={`/store/products/${product.slug.current}`}
