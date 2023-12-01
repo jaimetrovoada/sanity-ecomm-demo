@@ -32,7 +32,7 @@ const ProductCard = ({ product, useListStyle = false }: Prop) => {
       <CardHeader className="flex flex-col gap-1 border-t border-gray-500 p-2">
         <CardTitle className="">
           <Link
-            href={`/store/products/${product.slug.current}`}
+            href={`/products/${product.slug.current}`}
             className="text-base group-hover:underline"
           >
             {product.brand.title} {product.title}

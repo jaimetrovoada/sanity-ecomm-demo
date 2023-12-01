@@ -45,7 +45,7 @@ export default async function Page({ searchParams }: Props) {
         </p>
 
         <Button className="inline-block" asChild>
-          <Link href="/store/products">Go back</Link>
+          <Link href="/products">Go back</Link>
         </Button>
       </section>
     </Main>

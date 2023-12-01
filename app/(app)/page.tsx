@@ -30,7 +30,7 @@ export default async function Home() {
             variant="link"
             asChild
           >
-            <Link href="/store">Shop Now</Link>
+            <Link href="/products">Shop Now</Link>
           </Button>
         </section>
       </Main>
@@ -51,7 +51,7 @@ export default async function Home() {
           variant="link"
           asChild
         >
-          <Link href="/store">Shop Now</Link>
+          <Link href="/products">Shop Now</Link>
         </Button>
       </section>
 

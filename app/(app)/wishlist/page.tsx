@@ -55,7 +55,7 @@ const List = ({
               className="group flex flex-row items-center justify-between border-b border-b-gray-200 py-2 text-gray-700 "
             >
               <Link
-                href={`/store/products/${item.slug}`}
+                href={`/products/${item.slug}`}
                 className="group-hover:underline"
               >
                 {item.name}

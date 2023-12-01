@@ -24,7 +24,7 @@ const RelatedProductsList = async ({ slug }: Props) => {
   return (
     <section className="mx-auto w-full max-w-screen-lg">
       <h2 className="mb-4 inline-flex items-center gap-1 text-2xl font-semibold hover:underline">
-        <Link href={`/store/products?brand=${related[0].brand.slug}`}>
+        <Link href={`/products?brand=${related[0].brand.slug}`}>
           More From {related[0].brand.title}
         </Link>
         <ArrowRight className="h-4 w-4" />

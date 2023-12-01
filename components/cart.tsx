@@ -43,7 +43,7 @@ const Cart = () => {
         </section>
         <section className="flex flex-row items-center justify-between">
           <Button size="sm" asChild>
-            <Link href="/store/checkout">Checkout</Link>
+            <Link href="/checkout">Checkout</Link>
           </Button>
           <span className="font-semibold">${state.totalPrice}</span>
         </section>

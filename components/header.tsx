@@ -39,7 +39,7 @@ const Header = ({ categories, brands }: Props) => {
         <NavigationMenuList>
           <Cart />
           <NavigationMenuItem>
-            <Link href="/store/wishlist" legacyBehavior passHref>
+            <Link href="/wishlist" legacyBehavior passHref>
               <NavigationMenuLink className={navigationMenuTriggerStyle()}>
                 Wishlist
               </NavigationMenuLink>
@@ -52,7 +52,7 @@ const Header = ({ categories, brands }: Props) => {
                 <li className="row-span-3 text-lg font-semibold">
                   <NavigationMenuLink asChild>
                     <Link
-                      href="/store/products"
+                      href="/products"
                       className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md"
                     >
                       All Products
@@ -71,7 +71,7 @@ const Header = ({ categories, brands }: Props) => {
                       >
                         <NavigationMenuLink asChild>
                           <Link
-                            href={`/store/products?category=${category.slug.current}`}
+                            href={`/products?category=${category.slug.current}`}
                           >
                             {category.title}
                           </Link>
@@ -91,9 +91,7 @@ const Header = ({ categories, brands }: Props) => {
                         className="text-gray-700 underline"
                       >
                         <NavigationMenuLink asChild>
-                          <Link
-                            href={`/store/products?brand=${brand.slug.current}`}
-                          >
+                          <Link href={`/products?brand=${brand.slug.current}`}>
                             {brand.title}
                           </Link>
                         </NavigationMenuLink>

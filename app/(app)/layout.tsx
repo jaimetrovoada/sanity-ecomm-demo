@@ -11,7 +11,7 @@ import { Brand, Category } from "@/@types";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  metadataBase: new URL(`${process.env.NEXT_PUBLIC_ROOT_DOMAIN}/store`),
+  metadataBase: new URL(`${process.env.NEXT_PUBLIC_ROOT_DOMAIN}/`),
   title: {
     template: "%s | Oxygen Store",
     default: "Oxygen Store",

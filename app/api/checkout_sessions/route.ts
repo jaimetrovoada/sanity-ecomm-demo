@@ -4,7 +4,7 @@ import { paymentSchema } from "@/lib/schemas";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   typescript: true,
-  apiVersion: "2023-08-16",
+  apiVersion: "2023-10-16",
 });
 
 export async function POST(req: NextRequest) {
@@ -36,8 +36,8 @@ export async function POST(req: NextRequest) {
         allowed_countries: ["US"],
       },
       billing_address_collection: "auto",
-      success_url: `${req.nextUrl.origin}/store/success?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${req.nextUrl.origin}/store/checkout`,
+      success_url: `${req.nextUrl.origin}/success?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${req.nextUrl.origin}/checkout`,
     });
 
     return NextResponse.json(session);
