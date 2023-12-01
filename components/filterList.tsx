@@ -71,10 +71,8 @@ const FilterList = ({ brands, categories }: Props) => {
     },
   });
 
-  const submitDisabled = !(
-    form.getFieldState("categories").isDirty ||
-    form.getFieldState("brands").isDirty
-  );
+  const submitDisabled = !form.formState.isDirty;
+  console.log({ changed: form.formState.isDirty });
 
   function onSubmit(data: z.infer<typeof FormSchema>) {
     setParams({
