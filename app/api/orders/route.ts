@@ -1,6 +1,6 @@
 import { NextResponse, NextRequest } from "next/server";
 import { Order } from "@/@types";
-import { nanoid } from "nanoid/async";
+import { nanoid } from "nanoid";
 import { client } from "@/sanity/lib/client";
 import { CartProduct } from "@/lib/cartReducer";
 
@@ -8,8 +8,8 @@ export async function POST(req: NextRequest, res: NextResponse) {
   const today = new Date();
   const date = today.toISOString();
 
-  const id = await nanoid(8);
-  const key = await nanoid(12);
+  const id = nanoid(8);
+  const key = nanoid(12);
   const body = await req.json();
   const {
     customer,
