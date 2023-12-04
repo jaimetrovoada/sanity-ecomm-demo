@@ -10,7 +10,7 @@ interface Props {
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   typescript: true,
-  apiVersion: "2023-08-16",
+  apiVersion: "2023-10-16",
 });
 export default async function Page({ searchParams }: Props) {
   const { session_id } = searchParams;
